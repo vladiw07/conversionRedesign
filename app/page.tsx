@@ -914,7 +914,7 @@ export default function Home() {
               Thank You!
             </h3>
             <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
-              Your free website audit request has been sent successfully! We'll review your details and get back to you within 24 hours.
+              Your free website audit request has been sent successfully! We'll review your details and get back to you within 8-12 hours.
             </p>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-50 text-green-800 rounded-full text-xs sm:text-sm">
               <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -932,7 +932,7 @@ export default function Home() {
                 Request Your Free Website Audit
               </h3>
               <p className="text-sm sm:text-base text-gray-700">
-                Share a few details and we'll send you a comprehensive audit within 24 hours.
+                Share a few details and we'll send you a comprehensive audit within 8-12 hours.
               </p>
             </div>
 
