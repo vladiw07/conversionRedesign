@@ -92,9 +92,9 @@ export default function Home() {
   type NavHref = `#${SectionId}`;
 
   const navItems: { label: string; href: NavHref; icon: React.ElementType }[] = [
-    { label: "Approach", href: "#approach", icon: BarChart3 },
-    { label: "Process", href: "#process", icon: Rocket },
-    { label: "Scope", href: "#scope", icon: Target },
+    { label: "The Problem", href: "#approach", icon: BarChart3 },
+    { label: "Our Process", href: "#process", icon: Rocket },
+    { label: "Perfect Fit", href: "#scope", icon: Target },
   ];
 
   const handleNavClick = (href: NavHref) => {
@@ -345,8 +345,8 @@ export default function Home() {
             </h1>
             
             <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-              Your website should be converting visitors into clients. We redesign your front-end for 
-              <span className="font-semibold text-slate-800"> clarity, authority, and action</span>—turning lookers into booked calls.
+              Your website should be converting visitors into paying clients. We redesign your front-end for 
+              <span className="font-semibold text-slate-800"> crystal-clear messaging, undeniable authority, and frictionless booking</span>—transforming lookers into booked discovery calls.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-300">
@@ -401,18 +401,18 @@ export default function Home() {
                 Your Website Should Work <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-500">As Hard As You Do</span>
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                Common conversion blockers that keep coaches and consultants from getting booked
+                Common conversion blockers that keep coaches and consultants from booking ideal clients
               </p>
             </div>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {[
-                { icon: Layout, title: 'Unclear Value', desc: 'Visitors leave because they don\'t understand how you help' },
-                { icon: Shield, title: 'Weak Authority', desc: 'Design doesn\'t establish you as the expert you are' },
-                { icon: Zap, title: 'Confusing CTAs', desc: 'Too many options mean no action is taken' },
-                { icon: Target, title: 'Mobile Frustration', desc: 'Over 60% of your traffic comes from mobile devices' },
-                { icon: TrendingUp, title: 'No Clear Path', desc: 'The journey from visitor to booked call isn\'t obvious' },
-                { icon: Users, title: 'Wrong Messaging', desc: 'You attract tire-kickers, not ideal clients' }
+                { icon: Layout, title: 'Unclear Value Proposition', desc: 'Visitors leave confused because your unique solution isn\'t immediately obvious' },
+                { icon: Shield, title: 'Weak Expert Positioning', desc: 'Your design fails to establish the authority that justifies your premium rates' },
+                { icon: Zap, title: 'Confusing Call-to-Actions', desc: 'Too many options paralyze decision-making, resulting in zero booked calls' },
+                { icon: Target, title: 'Mobile Experience Gap', desc: 'Over 60% of your traffic comes from mobile, but your site frustrates mobile users' },
+                { icon: TrendingUp, title: 'No Clear Conversion Path', desc: 'The journey from visitor to booked discovery call isn\'t intuitive or obvious' },
+                { icon: Users, title: 'Messaging Misses the Mark', desc: 'You attract time-wasting tire-kickers instead of ideal, ready-to-invest clients' }
               ].map((item, idx) => (
                 <div 
                   key={idx} 
@@ -442,27 +442,27 @@ export default function Home() {
               <div className="max-w-3xl">
                 <div className="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full text-sm font-medium text-blue-700 mb-6 border border-blue-200 cursor-default transition-all duration-300 hover:scale-105">
                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span>What You'll Get</span>
+                  <span>Your Website Transformation</span>
                 </div>
                 
                 <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
-                  A Website That <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Clearly Communicates</span> Your Value
+                  A Website That <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Compels Action</span> From Ideal Clients
                 </h2>
                 
                 <p className="text-lg sm:text-xl text-slate-700 mb-10 leading-relaxed">
-                  After our redesign, your website will immediately show visitors who you help, what results you deliver, 
-                  and exactly how to work with you—removing all friction from the booking process.
+                  After our strategic redesign, your website will immediately communicate who you help, the transformative results you deliver, 
+                  and exactly how to begin working together—eliminating all friction that prevents booking.
                 </p>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {[
                     { 
-                      title: 'Included Pages', 
-                      items: ['Homepage', 'About / Authority', 'Services / Offers', 'Contact / Booking', '+ Landing Page'] 
+                      title: 'Included Pages & Assets', 
+                      items: ['Homepage (Primary Conversion Hub)', 'About / Authority Building', 'Services / Offer Presentation', 'Contact / Booking Engine', '+ Custom Landing Page'] 
                     },
                     { 
-                      title: 'Focus Areas', 
-                      items: ['Clarity First', 'Authority Design', 'Conversion Flow', 'Mobile Excellence', 'Trust Signals'] 
+                      title: 'Strategic Focus Areas', 
+                      items: ['Clarity-First Messaging', 'Expert Authority Design', 'Conversion-Optimized Flow', 'Mobile-First Excellence', 'Trust & Social Proof Integration'] 
                     }
                   ].map((column, colIdx) => (
                     <div 
@@ -496,10 +496,10 @@ export default function Home() {
           <div className="container mx-auto max-w-5xl">
             <div className="text-center mb-16 animate-fade-in-up">
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Built <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Specifically</span> For You
+                Built <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Specifically</span> For Experts Like You
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                We focus on what actually converts for coaches and consultants
+                We specialize exclusively in what actually converts for premium coaches and consultants
               </p>
             </div>
 
@@ -511,15 +511,15 @@ export default function Home() {
                     <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-500 hover:rotate-12">
                       <Check className="w-6 h-6 text-white transition-transform duration-500 hover:scale-110" />
                     </div>
-                    Perfect For Your Business
+                    Perfect For Your Expert Business
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      'Lead-driven service websites',
-                      'Coaches selling expertise packages',
-                      'Consultants with clear offerings',
-                      'Static or CMS-based sites (Webflow, WordPress)',
-                      'Businesses with existing traffic & leads'
+                      'Service-based businesses driving lead generation',
+                      'Coaches selling premium expertise packages',
+                      'Consultants with clear, high-value offerings',
+                      'Static or CMS-based sites (Webflow, WordPress, Squarespace)',
+                      'Businesses with existing traffic & qualified leads'
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 group cursor-default">
                         <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-200">
@@ -539,14 +539,14 @@ export default function Home() {
                     <div className="w-12 h-12 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-500 hover:rotate-12">
                       <Shield className="w-6 h-6 text-white transition-transform duration-500 hover:scale-110" />
                     </div>
-                    Not What We Do
+                    Not Our Specialty
                   </h3>
                   <ul className="space-y-4">
                     {[
-                      'Custom backend systems or databases',
-                      'Membership portals or learning platforms',
-                      'Web applications or dashboards',
-                      'E-commerce stores with complex inventory',
+                      'Custom backend systems or complex databases',
+                      'Membership portals or learning management platforms',
+                      'Web applications or data-intensive dashboards',
+                      'E-commerce stores with complex inventory management',
                       'Social networks or community platforms'
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-start gap-3 group cursor-default">
@@ -559,7 +559,7 @@ export default function Home() {
                   </ul>
                   <div className="mt-8 p-4 bg-white/50 rounded-lg border border-slate-200 transition-all duration-300 hover:bg-white/80">
                     <p className="text-sm text-slate-600 italic">
-                      "We specialize in converting existing traffic—not building complex web applications. This focus allows us to deliver exceptional results for coaches and consultants."
+                      "We specialize exclusively in converting existing traffic into booked calls—not building complex web applications. This laser focus allows us to deliver exceptional conversion results for expert service providers."
                     </p>
                   </div>
                 </div>
@@ -573,10 +573,10 @@ export default function Home() {
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-16 animate-fade-in-up">
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Simple Process,</span> Exceptional Results
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Strategic Process,</span> Exceptional Conversions
               </h2>
               <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                A streamlined approach focused on what matters most—your conversions
+                A streamlined, results-focused approach designed specifically for expert service providers
               </p>
             </div>
 
@@ -586,11 +586,11 @@ export default function Home() {
               
               <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
                 {[
-                  { step: '01', title: 'Deep Audit', desc: 'Comprehensive analysis of your current site' },
-                  { step: '02', title: 'Strategy Session', desc: 'Align on goals & conversion blockers' },
-                  { step: '03', title: 'Redesign', desc: 'Create clear hierarchy & flow' },
-                  { step: '04', title: 'Build', desc: 'Premium front-end implementation' },
-                  { step: '05', title: 'Launch', desc: 'Go live & conversion review' }
+                  { step: '01', title: 'Deep Conversion Audit', desc: 'Comprehensive analysis of your current site\'s conversion bottlenecks' },
+                  { step: '02', title: 'Strategy Alignment', desc: 'Collaborative session to define goals and ideal client conversion path' },
+                  { step: '03', title: 'Strategic Redesign', desc: 'Creation of clear hierarchy, messaging, and conversion flow' },
+                  { step: '04', title: 'Premium Implementation', desc: 'Expert front-end development with conversion optimization' },
+                  { step: '05', title: 'Launch & Optimization', desc: 'Go live with conversion tracking and performance review' }
                 ].map((item, idx) => (
                   <div 
                     key={idx} 
@@ -616,14 +616,14 @@ export default function Home() {
             {/* Additional CTA after process section */}
             <div className="mt-16 text-center animate-fade-in-up">
               <p className="text-lg text-slate-600 mb-8">
-                Ready to start this process for your business?
+                Ready to implement this strategic process for your business?
               </p>
               <button 
                 onClick={handleContactClick}
                 className="group px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 mx-auto focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 aria-label="Get free website audit"
               >
-                <span>Start With a Free Audit</span>
+                <span>Start With a Free Conversion Audit</span>
                 <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
               </button>
             </div>
@@ -644,20 +644,20 @@ export default function Home() {
                 </h2>
                 
                 <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
-                  Get a free, comprehensive website audit that reveals exactly where you're losing potential clients—and exactly what to do about it.
+                  Get a free, comprehensive website audit that reveals exactly where you're losing potential clients—and receive a clear action plan to transform lookers into booked discovery calls.
                 </p>
 
                 <div className="max-w-md mx-auto mb-8 bg-slate-800/50 rounded-xl p-6 border border-slate-700 transition-all duration-300 hover:bg-slate-800/70">
                   <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
                     <Shield className="w-5 h-5 text-blue-400 animate-pulse" />
-                    What You'll Receive:
+                    Your Free Audit Includes:
                   </h4>
                   <ul className="space-y-3 text-left">
                     {[
-                      'Conversion bottleneck analysis',
-                      'Mobile & desktop performance review',
-                      'Clear action plan with priorities',
-                      'No obligation consultation'
+                      'Conversion bottleneck identification & analysis',
+                      'Mobile & desktop user experience review',
+                      'Clear priority action plan with immediate steps',
+                      'No-obligation strategy consultation call'
                     ].map((item, idx) => (
                       <li key={idx} className="flex items-center gap-3 text-slate-300 group">
                         <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-blue-500/40">
@@ -680,7 +680,7 @@ export default function Home() {
                 
                 <p className="mt-8 text-slate-400 text-sm flex items-center justify-center gap-2">
                   <Shield className="w-4 h-4" />
-                  No obligation • No hard sell • 100% focused on your results
+                  No obligation • No hard sell • 100% focused on your conversion results
                 </p>
               </div>
             </div>
@@ -709,7 +709,7 @@ export default function Home() {
                 </button>
                 <p className="text-slate-600 max-w-md">
                   Front-end website redesign for business coaches & consultants.
-                  Turning visitors into booked calls through strategic design.
+                  Turning visitors into booked discovery calls through strategic design.
                 </p>
               </div>
               

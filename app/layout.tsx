@@ -87,7 +87,7 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/faviconn.ico", // put your favicon.ico in /public
+    icon: "/favicon4.ico", // put your favicon.ico in /public
     // apple: "/apple-touch-icon.png", // optional later
   },
 
