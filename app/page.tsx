@@ -137,54 +137,69 @@ export default function Home() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setSubmitError(null);
+  e.preventDefault();
+  setIsSubmitting(true);
+  setSubmitError(null);
 
-    try {
-      const response = await fetch('https://formspree.io/f/xkovwqpb', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          website: formData.website,
-          message: formData.message,
-          _subject: `Free Website Audit Request from ${formData.name}`,
-          _replyto: formData.email,
-          _format: 'plain'
-        })
+  try {
+    const response = await fetch("https://formspree.io/f/xkovwqpb", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        email: formData.email,
+        website: formData.website,
+        message: formData.message,
+        _subject: `Free Website Audit Request from ${formData.name}`,
+        _replyto: formData.email,
+        _format: "plain",
+      }),
+    });
+
+    if (response.ok) {
+      // ✅ FIRE GOOGLE ADS CONVERSION HERE
+      if (typeof window !== "undefined" && (window as any).gtag) {
+        (window as any).gtag("event", "conversion", {
+          send_to: "AW-17933281806/Frc1CNcavfMbEI7Uo0oC",
+          value: 1.0,
+          currency: "EUR",
+        });
+      }
+
+      setSubmitSuccess(true);
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        website: "",
+        message: "",
       });
 
-      if (response.ok) {
-        setSubmitSuccess(true);
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          website: '',
-          message: ''
-        });
-        
-        // Close form after 3 seconds
-        setTimeout(() => {
-          setShowContactForm(false);
-          setSubmitSuccess(false);
-        }, 3000);
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Form submission failed');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
-      setSubmitError(error instanceof Error ? error.message : 'Failed to submit form. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+      // Close form after 3 seconds
+      setTimeout(() => {
+        setShowContactForm(false);
+        setSubmitSuccess(false);
+      }, 3000);
+    } else {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Form submission failed");
     }
-  };
+  } catch (error) {
+    console.error("Error submitting form:", error);
+    setSubmitError(
+      error instanceof Error
+        ? error.message
+        : "Failed to submit form. Please try again."
+    );
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   if (!mounted) return null;
 
