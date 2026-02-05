@@ -883,201 +883,196 @@ export default function Home() {
 
       {/* Contact Form Modal */}
       {showContactForm && (
-        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-          <div 
-            ref={contactFormRef}
-            className="relative w-full max-w-lg my-auto sm:my-0 bg-gradient-to-br from-white via-white to-slate-50 rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
-            style={{
-              maxHeight: '90vh',
-              marginTop: '1rem',
-              marginBottom: '1rem'
-            }}
-          >
-            {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full -translate-y-16 translate-x-16"></div>
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-indigo-100/20 to-blue-100/20 rounded-full -translate-x-20 translate-y-20"></div>
-            
-            {/* Close button - Larger touch target for mobile */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowContactForm(false);
-              }}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 sm:p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10"
-              aria-label="Close form"
-            >
-              <X className="w-5 h-5 text-slate-500" />
-            </button>
-            
-            <div className="relative p-4 sm:p-6 md:p-8 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 2rem)' }}>
-              {submitSuccess ? (
-                <div className="text-center py-6 sm:py-8">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">
-                    Thank You!
-                  </h3>
-                  <p className="text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
-                    Your free website audit request has been sent successfully! We'll review your details and get back to you within 24 hours.
-                  </p>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-50 text-green-700 rounded-full text-xs sm:text-sm">
-                    <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
-                    No obligation • No hard sell • 100% focused on your results
-                  </div>
-                </div>
-              ) : (
-                <>
-                  {/* Header */}
-                  <div className="text-center mb-6 sm:mb-8">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg">
-                      <MessageSquare className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 mb-2">
-                      Request Your Free Website Audit
-                    </h3>
-                    <p className="text-sm sm:text-base text-slate-600">
-                      Share a few details and we'll send you a comprehensive audit within 24 hours.
-                    </p>
-                  </div>
-
-                  {/* Error message */}
-                  {submitError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-700 flex items-center gap-2">
-                        <Shield className="w-4 h-4 flex-shrink-0" />
-                        {submitError}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Form */}
-                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-                    <div className="space-y-3 sm:space-y-4">
-                      <div>
-                        <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                          <User className="w-4 h-4 text-blue-500" />
-                          Your Name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-slate-400 text-base disabled:bg-slate-100 disabled:cursor-not-allowed"
-                          placeholder="John Smith"
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                          <Mail className="w-4 h-4 text-blue-500" />
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-slate-400 text-base disabled:bg-slate-100 disabled:cursor-not-allowed"
-                          placeholder="john@example.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="website" className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                          <Globe className="w-4 h-4 text-blue-500" />
-                          Website URL *
-                        </label>
-                        <input
-                          type="url"
-                          id="website"
-                          name="website"
-                          value={formData.website}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-slate-400 text-base disabled:bg-slate-100 disabled:cursor-not-allowed"
-                          placeholder="https://yourwebsite.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5 flex items-center gap-2">
-                          <MessageCircle className="w-4 h-4 text-blue-500" />
-                          Tell us about your goals *
-                        </label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={2}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-slate-400 resize-none text-base disabled:bg-slate-100 disabled:cursor-not-allowed"
-                          placeholder="What are your main challenges with your current website?"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-50 border border-blue-100 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-start gap-2 sm:gap-3">
-                        <Shield className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
-                        <div className="text-sm text-blue-700">
-                          <p className="font-medium mb-1">What happens next:</p>
-                          <ul className="space-y-1">
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 flex-shrink-0" />
-                              <span>We'll review your website within 8-12 hours</span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 flex-shrink-0" />
-                              <span>Send you a detailed audit report via email</span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 flex-shrink-0" />
-                              <span>No spam, no obligation - just results</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out shadow-lg hover:shadow-xl active:scale-95 transform cursor-pointer flex items-center justify-center gap-2 sm:gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed text-base"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          <span>Sending Request...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Send Free Audit Request</span>
-                          <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
-                        </>
-                      )}
-                    </button>
-
-                    <p className="text-center text-xs text-slate-500">
-                      By submitting, you agree to our privacy policy. Your data is secure with Formspree.
-                    </p>
-                  </form>
-                </>
-              )}
+  <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
+    <div 
+      ref={contactFormRef}
+      className="relative w-full max-w-lg my-auto sm:my-0 bg-white rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
+    >
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full -translate-y-16 translate-x-16"></div>
+      <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-indigo-100/20 to-blue-100/20 rounded-full -translate-x-20 translate-y-20"></div>
+      
+      {/* Close button - Larger touch target for mobile */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          setShowContactForm(false);
+        }}
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 sm:p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10"
+        aria-label="Close form"
+      >
+        <X className="w-5 h-5 text-slate-700" />
+      </button>
+      
+      <div className="relative p-4 sm:p-6 md:p-8 overflow-y-auto" style={{ maxHeight: 'calc(90vh - 2rem)' }}>
+        {submitSuccess ? (
+          <div className="text-center py-6 sm:py-8">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+              <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
+              Thank You!
+            </h3>
+            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
+              Your free website audit request has been sent successfully! We'll review your details and get back to you within 24 hours.
+            </p>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-50 text-green-800 rounded-full text-xs sm:text-sm">
+              <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
+              No obligation • No hard sell • 100% focused on your results
             </div>
           </div>
-        </div>
-      )}
+        ) : (
+          <>
+            {/* Header */}
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg">
+                <MessageSquare className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+              </div>
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Request Your Free Website Audit
+              </h3>
+              <p className="text-sm sm:text-base text-gray-700">
+                Share a few details and we'll send you a comprehensive audit within 24 hours.
+              </p>
+            </div>
+
+            {/* Error message */}
+            {submitError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm text-red-800 flex items-center gap-2">
+                  <Shield className="w-4 h-4 flex-shrink-0" />
+                  {submitError}
+                </p>
+              </div>
+            )}
+
+            {/* Form */}
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2">
+                    <User className="w-4 h-4 text-blue-600" />
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                    placeholder="John Smith"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2">
+                    <Mail className="w-4 h-4 text-blue-600" />
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                    placeholder="john@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="website" className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2">
+                    <Globe className="w-4 h-4 text-blue-600" />
+                    Website URL *
+                  </label>
+                  <input
+                    type="url"
+                    id="website"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
+                    placeholder="https://yourwebsite.com"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-blue-600" />
+                    Tell us about your goals *
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={2}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed resize-none"
+                    placeholder="What are your main challenges with your current website?"
+                  />
+                </div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
+                <div className="flex items-start gap-2 sm:gap-3">
+                  <Shield className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div className="text-sm text-blue-800">
+                    <p className="font-medium mb-1">What happens next:</p>
+                    <ul className="space-y-1">
+                      <li className="flex items-center gap-2">
+                        <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
+                        <span className="text-blue-800">We'll review your website within 8-12 hours</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
+                        <span className="text-blue-800">Send you a detailed audit report via email</span>
+                      </li>
+                      <li className="flex items-center gap-2">
+                        <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
+                        <span className="text-blue-800">No spam, no obligation - just results</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out shadow-lg hover:shadow-xl active:scale-95 transform cursor-pointer flex items-center justify-center gap-2 sm:gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed text-base"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Sending Request...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Free Audit Request</span>
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
+                  </>
+                )}
+              </button>
+
+              <p className="text-center text-xs text-gray-600">
+                By submitting, you agree to our privacy policy. Your data is secure with Formspree.
+              </p>
+            </form>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+)}
     </>
   );
 }
