@@ -7,7 +7,8 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [mounted, setMounted] = useState(false);
-  const mobileMenuRef = useRef(null);
+  const mobileMenuRef = useRef<HTMLDivElement | null>(null);
+const hamburgerButtonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -33,45 +34,54 @@ export default function Home() {
 
   // Close mobile menu when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
-        // Check if the click is on the hamburger button (or its children)
-        const hamburgerButton = document.querySelector('[aria-label*="menu"]');
-        if (!hamburgerButton || !hamburgerButton.contains(event.target)) {
-          setIsMenuOpen(false);
-        }
+  const handleClickOutside = (event: MouseEvent) => {
+    const menuEl = mobileMenuRef.current;
+    const buttonEl = hamburgerButtonRef.current;
+
+    // event.target is EventTarget; contains() expects Node
+    const target = event.target as Node | null;
+
+    if (!menuEl || !target) return;
+
+    // If click is outside the menu...
+    if (!menuEl.contains(target)) {
+      // ...and it's not on the hamburger button (or its children)
+      if (!buttonEl || !buttonEl.contains(target)) {
+        setIsMenuOpen(false);
       }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
-
-  const navItems = [
-    { label: 'Approach', href: '#approach', icon: BarChart3 },
-    { label: 'Process', href: '#process', icon: Rocket },
-    { label: 'Scope', href: '#scope', icon: Target },
-    { label: 'Audit', href: '#audit', icon: MessageSquare },
-  ];
-
-  const handleNavClick = (href) => {
-    setIsMenuOpen(false);
-    
-    // Small delay to ensure menu is closed before scrolling
-    setTimeout(() => {
-      const element = document.querySelector(href);
-      if (element) {
-        const offset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - offset;
-        
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      }
-    }, 100);
+    }
   };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
+
+type SectionId = "approach" | "process" | "scope" | "audit";
+type NavHref = `#${SectionId}`;
+
+
+  const navItems: { label: string; href: NavHref; icon: React.ElementType }[] = [
+  { label: "Approach", href: "#approach", icon: BarChart3 },
+  { label: "Process", href: "#process", icon: Rocket },
+  { label: "Scope", href: "#scope", icon: Target },
+  { label: "Audit", href: "#audit", icon: MessageSquare },
+];
+
+  const handleNavClick = (href: NavHref) => {
+  setIsMenuOpen(false);
+
+  setTimeout(() => {
+    const element = document.querySelector<HTMLElement>(href);
+    if (!element) return;
+
+    const offset = 80;
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+  }, 100);
+};
+
 
   const handleProcessButtonClick = () => {
     handleNavClick('#process');
@@ -147,6 +157,7 @@ export default function Home() {
 
             {/* Mobile Menu Button */}
             <button 
+              ref={hamburgerButtonRef}
               className={`md:hidden p-3 rounded-xl transition-all duration-300 ease-out cursor-pointer relative focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 z-50 ${
                 isMenuOpen 
                   ? 'bg-blue-50 text-blue-600' 
@@ -170,7 +181,7 @@ export default function Home() {
             className={`md:hidden absolute left-0 right-0 mx-4 transition-all duration-300 ease-out z-40 ${
               isMenuOpen 
                 ? 'opacity-100 translate-y-0 visible' 
-                : 'opacity-0 -translate-y-4 invisible'
+                : 'opacity-0 -translate-y-4 invisible pointer-events-none'
             }`}
             style={{
               top: 'calc(100% + 0.5rem)'
@@ -220,7 +231,7 @@ export default function Home() {
         </div>
       </nav>
 
-      {/* Rest of your components remain exactly the same */}
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
         {/* Animated Background Elements */}
