@@ -882,7 +882,7 @@ export default function Home() {
       </div>
 
       {/* Contact Form Modal */}
-      {showContactForm && (
+{showContactForm && (
   <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
     <div 
       ref={contactFormRef}
@@ -991,7 +991,7 @@ export default function Home() {
                     Website URL *
                   </label>
                   <input
-                    type="url"
+                    type="text"
                     id="website"
                     name="website"
                     value={formData.website}
@@ -999,7 +999,7 @@ export default function Home() {
                     required
                     disabled={isSubmitting}
                     className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-                    placeholder="https://yourwebsite.com"
+                    placeholder="yourwebsite.com"
                   />
                 </div>
 
