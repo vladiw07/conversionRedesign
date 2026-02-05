@@ -132,83 +132,45 @@ export default function Home() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
   e.preventDefault();
   setIsSubmitting(true);
-  
-  try {
-    // Using Formspree (you need to sign up at formspree.io for free)
-    const response = await fetch('https://formspree.io/f/YOUR_FORM_ID_HERE', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        website: formData.website,
-        message: formData.message,
-        _subject: 'Free Website Audit Request - ConversionFlow',
-        _replyto: formData.email,
-        _format: 'plain'
-      })
-    });
-    
-    if (response.ok) {
-      setSubmitSuccess(true);
-      setIsSubmitting(false);
-      
-      // Reset form after success
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          email: '',
-          website: '',
-          message: ''
-        });
-        setSubmitSuccess(false);
-        setShowContactForm(false);
-      }, 3000);
-    } else {
-      throw new Error('Form submission failed');
-    }
-    
-  } catch (error) {
-    console.error('Error submitting form:', error);
-    setIsSubmitting(false);
-    // Fallback to mailto if Formspree fails
-    const subject = encodeURIComponent('Free Website Audit Request - ConversionFlow');
-    const body = encodeURIComponent(`
+
+  const emailBody = `
+Free Website Audit Request
+
 Name: ${formData.name}
 Email: ${formData.email}
 Website: ${formData.website}
 
-Goals/Challenges:
+Goals & Challenges:
 ${formData.message}
 
 ---
 Sent from ConversionFlow Website
-    `.trim());
-    
-    window.location.href = `mailto:info@vladislavuanli.net?subject=${subject}&body=${body}`;
-    
-    // Still show success since we're using mailto fallback
-    setSubmitSuccess(true);
-    setIsSubmitting(false);
-    
-    setTimeout(() => {
-      setFormData({
-        name: '',
-        email: '',
-        website: '',
-        message: ''
-      });
-      setSubmitSuccess(false);
-      setShowContactForm(false);
-    }, 3000);
-  }
+  `.trim();
+
+  const subject = "Free Website Audit Request - ConversionFlow";
+
+  const mailtoLink =
+    `mailto:info@vladislavuanli.net` +
+    `?subject=${encodeURIComponent(subject)}` +
+    `&body=${encodeURIComponent(emailBody)}`;
+
+  // Most reliable approach: create a temp <a> and click it
+  const a = document.createElement("a");
+  a.href = mailtoLink;
+  a.rel = "noreferrer";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  // We can't confirm sending, so we only confirm the action
+  setIsSubmitting(false);
+  setSubmitSuccess(true);
 };
+
+
 
   if (!mounted) return null;
 
