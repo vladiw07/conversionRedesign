@@ -26,19 +26,13 @@ body {
 }
 /* Add this to your global styles (same file) to reduce paint cost on mobile */
 @media (max-width: 767px) {
-  /* Biggest win: disable expensive backdrop blur on mobile browsers */
   .backdrop-blur,
   .backdrop-blur-sm,
   .backdrop-blur-md,
-  .backdrop-blur-lg {
+  .backdrop-blur-lg,
+  .backdrop-blur-xl,
+  .backdrop-blur-2xl {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-  }
-
-  /* Optional: if you’re animating hero elements on load, kill those animations on mobile */
-  .animate-fade-in-up,
-  .animate-fade-in-left,
-  .animate-fade-in-right {
-    animation: none !important;
   }
 }

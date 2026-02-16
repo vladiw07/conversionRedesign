@@ -1,35 +1,70 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+
+import React, { useEffect, useRef, useState } from "react";
 import {
-  Check,
   ArrowRight,
-  Shield,
-  Zap,
-  Target,
-  Layout,
-  Menu,
-  X,
+  BarChart3,
+  Check,
   ChevronRight,
-  Sparkles,
-  TrendingUp,
-  Users,
   Clock,
   Globe,
-  BarChart3,
-  MessageSquare,
-  MessageCircle,
+  Layout,
   Mail,
-  User,
+  Menu,
+  MessageCircle,
+  MessageSquare,
   Rocket,
+  Shield,
+  Sparkles,
+  Target,
+  TrendingUp,
+  User,
+  Users,
+  X,
+  Zap,
 } from "lucide-react";
 
-
+/** Mobile sticky CTA (opens your existing contact modal) */
+function MobileStickyCTA({ onClick }: { onClick: () => void }) {
+  return (
+    <div className="md:hidden fixed inset-x-0 bottom-0 z-[60]">
+      {/* soft fade so it feels native */}
+      <div className="pointer-events-none h-10 bg-gradient-to-t from-white via-white/90 to-transparent" />
+      <div className="pointer-events-auto px-3 pb-[calc(env(safe-area-inset-bottom)+12px)]">
+        <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white/90 backdrop-blur shadow-2xl">
+          <div className="flex items-center gap-3 p-3">
+            <div className="flex-1">
+              <div className="text-[11px] font-semibold text-slate-500">
+                Free 5-point audit • 8–12h delivery
+              </div>
+              <div className="text-sm font-bold text-slate-900 leading-tight">
+                Want more booked calls from your current traffic?
+              </div>
+            </div>
+            <button
+              onClick={onClick}
+              className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg active:scale-[0.98] transition-transform"
+              aria-label="Open free audit form"
+            >
+              Get Audit
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [mounted, setMounted] = useState(false);
+
+  // ✅ Defer below-fold rendering (big mobile perf win, no visual change above fold)
+  const [showBelowFold, setShowBelowFold] = useState(false);
+
   const [showContactForm, setShowContactForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -48,23 +83,65 @@ export default function Home() {
   useEffect(() => {
     setMounted(true);
 
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    // ✅ Render below-fold when the browser has breathing room
+    const run = () => setShowBelowFold(true);
 
-      const sections = ["approach", "process", "scope"];
+    // Prefer idle time, fallback to short timeout
+    // @ts-ignore
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      // @ts-ignore
+      const id = window.requestIdleCallback(run, { timeout: 600 });
+      return () => {
+        // @ts-ignore
+        window.cancelIdleCallback?.(id);
+      };
+    } else {
+      const t = setTimeout(run, 80);
+      return () => clearTimeout(t);
+    }
+  }, []);
+
+  // ✅ Scroll listener: delayed + rAF-throttled + passive
+  useEffect(() => {
+    let raf = 0;
+    let enabled = false;
+
+    const computeActiveSection = () => {
+      const sections = ["approach", "process", "scope"] as const;
       const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 150 && rect.bottom >= 150;
-        }
-        return false;
+        const el = document.getElementById(section);
+        if (!el) return false;
+        const rect = el.getBoundingClientRect();
+        return rect.top <= 150 && rect.bottom >= 150;
       });
       setActiveSection(current || "");
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => {
+      if (!enabled) return;
+      if (raf) return;
+
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        setScrolled(window.scrollY > 20);
+        computeActiveSection();
+      });
+    };
+
+    // Delay attaching to reduce competition during LCP
+    const t = setTimeout(() => {
+      enabled = true;
+      window.addEventListener("scroll", onScroll, { passive: true });
+      // initial compute
+      onScroll();
+    }, 250);
+
+    return () => {
+      clearTimeout(t);
+      enabled = false;
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll as any);
+    };
   }, []);
 
   // Close mobile menu when clicking outside
@@ -73,7 +150,6 @@ export default function Home() {
       const menuEl = mobileMenuRef.current;
       const buttonEl = hamburgerButtonRef.current;
       const target = event.target as Node | null;
-
       if (!menuEl || !target) return;
 
       if (!menuEl.contains(target)) {
@@ -92,7 +168,6 @@ export default function Home() {
     const handleClickOutside = (event: MouseEvent) => {
       const formEl = contactFormRef.current;
       const target = event.target as Node | null;
-
       if (!formEl || !target) return;
 
       if (!formEl.contains(target)) {
@@ -133,7 +208,7 @@ export default function Home() {
       const offsetPosition = elementPosition + window.pageYOffset - offset;
 
       window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-    }, 100);
+    }, 80);
   };
 
   const handleContactClick = () => {
@@ -146,18 +221,13 @@ export default function Home() {
     handleNavClick("#process");
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen((v) => !v);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     if (submitError) setSubmitError(null);
   };
 
@@ -185,7 +255,7 @@ export default function Home() {
       });
 
       if (response.ok) {
-        // ✅ FIRE GOOGLE ADS CONVERSION HERE
+        // ✅ Google Ads conversion
         if (typeof window !== "undefined" && (window as any).gtag) {
           (window as any).gtag("event", "conversion", {
             send_to: "AW-17933281806/Frc1CNcavfMbEI7Uo0oC",
@@ -195,13 +265,7 @@ export default function Home() {
         }
 
         setSubmitSuccess(true);
-
-        setFormData({
-          name: "",
-          email: "",
-          website: "",
-          message: "",
-        });
+        setFormData({ name: "", email: "", website: "", message: "" });
 
         setTimeout(() => {
           setShowContactForm(false);
@@ -326,9 +390,7 @@ export default function Home() {
                   ? "opacity-100 translate-y-0 visible"
                   : "opacity-0 -translate-y-4 invisible pointer-events-none"
               }`}
-              style={{
-                top: "calc(100% + 0.5rem)",
-              }}
+              style={{ top: "calc(100% + 0.5rem)" }}
             >
               <div className="bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
                 <div className="flex flex-col p-2">
@@ -378,598 +440,648 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Hero Section - SPEED-OPTIMIZED (mobile) but looks ~the same */}
-<section className="relative overflow-hidden pt-24 sm:pt-32 pb-14 sm:pb-20 px-4 sm:px-6">
-  {/* Background (speed: reduce blur on mobile, keep on >=sm) */}
-  <div className="absolute inset-0 -z-10">
-    {/* ⛳ Biggest win: blur-3xl is expensive on mobile → use blur-xl + lower opacity, keep blur-3xl on sm+ */}
-    <div className="absolute -top-24 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/40 to-indigo-200/25 blur-xl sm:blur-3xl opacity-70" />
-    <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/30 to-sky-200/20 blur-2xl sm:blur-3xl hidden sm:block" />
-
-    {/* keep subtle overlays */}
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.07),transparent_55%)]" />
-    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.95),rgba(255,255,255,0.985))]" />
-  </div>
-
-  <div className="container mx-auto max-w-7xl relative">
-    <div className="grid items-start gap-8 lg:gap-12 lg:grid-cols-2">
-      {/* LEFT */}
-      <div className="text-center lg:text-left">
-        {/* Badge (speed: remove backdrop-blur on mobile) */}
-        <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/80 sm:bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm sm:backdrop-blur">
-          <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
-          <span>Coach &amp; Consultant Website Design</span>
-          <span className="mx-1 h-3 w-px bg-slate-200 hidden sm:inline" />
-          <span className="font-medium text-slate-600">Built to get booked calls</span>
-        </div>
-
-        {/* H1 (speed: gradient text only on sm+, solid color on mobile to paint faster) */}
-        <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          <span className="text-blue-600 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-blue-600 sm:to-indigo-600">
-            Website Design
-          </span>{" "}
-          for Coaches &amp; Consultants
-          <span className="block mt-2 text-slate-900">
-            That Turns Visitors Into{" "}
-            <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
-              Booked Calls
-            </span>
-          </span>
-        </h1>
-
-        <p className="mt-4 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
-          Redesign your site so people instantly understand your offer, trust you fast, and take the next step —
-          <b className="text-slate-800"> especially on mobile</b>.
-        </p>
-
-        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-          <button
-            onClick={handleContactClick}
-            className="group relative px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-white font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] bg-gradient-to-r from-blue-600 to-indigo-600 w-full sm:w-auto"
-            aria-label="Get your free conversion audit"
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
-              Get My Free Audit
-              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" />
-            </span>
-          </button>
-
-          {/* speed: remove backdrop-blur on mobile */}
-          <button
-            onClick={handleProcessButtonClick}
-            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto sm:bg-white/85 sm:backdrop-blur"
-            aria-label="See the process"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900/5">
-                <Clock className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
-              </span>
-              See the process
-            </span>
-          </button>
-        </div>
-
-        <p className="mt-3 text-xs sm:text-sm text-slate-500">
-          <span className="font-semibold text-slate-700">No sales call trap.</span> Audit delivered by email within{" "}
-          <span className="font-semibold">8–12 hours</span>.
-        </p>
-
-        {/* Trust chips (speed: remove backdrop-blur on mobile) */}
-        <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2">
-          {[
-            { icon: <Clock className="h-4 w-4" />, text: "8–12 hour delivery" },
-            { icon: <Check className="h-4 w-4" />, text: "No call required" },
-            { icon: <Check className="h-4 w-4" />, text: "Priority fix list" },
-          ].map((c, i) => (
-            <div
-              key={i}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 sm:bg-white/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm sm:backdrop-blur"
-            >
-              <span className="text-blue-600">{c.icon}</span>
-              <span>{c.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* RIGHT — PROOF CARD */}
-      <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full order-2 lg:order-none">
-        {/* speed: remove backdrop-blur on mobile; keep on sm+ */}
-        <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden sm:bg-white/75 sm:backdrop-blur">
-          <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
-            <div className="flex items-center gap-2">
-              <div className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
-              <div className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
-              <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
-            </div>
-            <div className="text-xs font-semibold text-slate-500">Audit preview</div>
+        {/* HERO — SPEED OPTIMIZED WITHOUT VISUAL CHANGE */}
+        <section className="relative overflow-hidden pt-24 sm:pt-32 pb-14 sm:pb-20 px-4 sm:px-6">
+          {/* Background (mobile cheaper blur, sm+ keeps your look) */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute -top-24 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/40 to-indigo-200/25 blur-xl sm:blur-3xl opacity-70" />
+            <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/30 to-sky-200/20 blur-2xl sm:blur-3xl hidden sm:block" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.07),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.95),rgba(255,255,255,0.985))]" />
           </div>
 
-          <div className="p-4 sm:p-6">
-            <div className="flex items-start gap-3">
-              <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-700 flex-shrink-0">
-                <BarChart3 className="h-5 w-5" />
-              </div>
-              <div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
-                  “Here’s what’s stopping calls — and what to fix first”
-                </h3>
-                <p className="mt-1 text-xs sm:text-sm text-slate-600">
-                  Annotated screenshots + headline options + priority order.
+          <div className="container mx-auto max-w-7xl relative">
+            <div className="grid items-start gap-8 lg:gap-12 lg:grid-cols-2">
+              {/* LEFT */}
+              <div className="text-center lg:text-left">
+                {/* Badge (remove backdrop blur on mobile; keep on sm+) */}
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/80 sm:bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm sm:backdrop-blur">
+                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span>Coach &amp; Consultant Website Design</span>
+                  <span className="mx-1 h-3 w-px bg-slate-200 hidden sm:inline" />
+                  <span className="font-medium text-slate-600">
+                    Built to get booked calls
+                  </span>
+                </div>
+
+                {/* H1 (mobile solid color = faster paint; desktop keeps gradient look) */}
+                <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                  <span className="text-blue-600 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-blue-600 sm:to-indigo-600">
+                    Website Design
+                  </span>{" "}
+                  for Coaches &amp; Consultants
+                  <span className="block mt-2 text-slate-900">
+                    That Turns Visitors Into{" "}
+                    <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
+                      Booked Calls
+                    </span>
+                  </span>
+                </h1>
+
+                <p className="mt-4 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
+                  Redesign your site so people instantly understand your offer,
+                  trust you fast, and take the next step —
+                  <b className="text-slate-800"> especially on mobile</b>.
                 </p>
-              </div>
-            </div>
 
-            <div className="mt-4 rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3">
-              <div className="h-14 w-full rounded-lg bg-slate-100 border border-slate-200 relative overflow-hidden">
-                <div className="absolute left-3 top-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
-                  <span className="h-2 w-2 rounded-full bg-red-500" />
-                  Offer not clear fast
+                <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                  <button
+                    onClick={handleContactClick}
+                    className="group relative px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-white font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] bg-gradient-to-r from-blue-600 to-indigo-600 w-full sm:w-auto"
+                    aria-label="Get your free conversion audit"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
+                      Get My Free Audit
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={handleProcessButtonClick}
+                    className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto sm:bg-white/85 sm:backdrop-blur"
+                    aria-label="See the process"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900/5">
+                        <Clock className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+                      </span>
+                      See the process
+                    </span>
+                  </button>
                 </div>
-                <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
-                  <span className="h-2 w-2 rounded-full bg-amber-500" />
-                  CTA too early
+
+                <p className="mt-3 text-xs sm:text-sm text-slate-500">
+                  <span className="font-semibold text-slate-700">
+                    No sales call trap.
+                  </span>{" "}
+                  Audit delivered by email within{" "}
+                  <span className="font-semibold">8–12 hours</span>.
+                </p>
+
+                <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                  {[
+                    { icon: <Clock className="h-4 w-4" />, text: "8–12 hour delivery" },
+                    { icon: <Check className="h-4 w-4" />, text: "No call required" },
+                    { icon: <Check className="h-4 w-4" />, text: "Priority fix list" },
+                  ].map((c, i) => (
+                    <div
+                      key={i}
+                      className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 sm:bg-white/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm sm:backdrop-blur"
+                    >
+                      <span className="text-blue-600">{c.icon}</span>
+                      <span>{c.text}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              <div className="mt-3 grid grid-cols-3 gap-2">
-                {[
-                  { label: "Fix #1", text: "Headline" },
-                  { label: "Fix #2", text: "Proof" },
-                  { label: "Fix #3", text: "CTA" },
-                ].map((fix, i) => (
-                  <div key={i} className="rounded-lg border border-slate-200 bg-white p-2">
-                    <div className="text-[10px] font-semibold text-slate-500">{fix.label}</div>
-                    <div className="mt-1 text-xs font-bold text-slate-900">{fix.text}</div>
+              {/* RIGHT — PROOF CARD (mobile no backdrop blur; desktop keeps it) */}
+              <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full order-2 lg:order-none">
+                <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden sm:bg-white/75 sm:backdrop-blur">
+                  <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
+                    <div className="flex items-center gap-2">
+                      <div className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+                      <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+                    </div>
+                    <div className="text-xs font-semibold text-slate-500">
+                      Audit preview
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            <div className="mt-4 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
-              <div className="text-xs font-semibold text-slate-800">Free 5-point audit</div>
-              <div className="text-[10px] font-semibold text-slate-500">Email delivery • No meeting</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+                  <div className="p-4 sm:p-6">
+                    <div className="flex items-start gap-3">
+                      <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-700 flex-shrink-0">
+                        <BarChart3 className="h-5 w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                          “Here’s what’s stopping calls — and what to fix first”
+                        </h3>
+                        <p className="mt-1 text-xs sm:text-sm text-slate-600">
+                          Annotated screenshots + headline options + priority
+                          order.
+                        </p>
+                      </div>
+                    </div>
 
+                    <div className="mt-4 rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3">
+                      <div className="h-14 w-full rounded-lg bg-slate-100 border border-slate-200 relative overflow-hidden">
+                        <div className="absolute left-3 top-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+                          <span className="h-2 w-2 rounded-full bg-red-500" />
+                          Offer not clear fast
+                        </div>
+                        <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+                          <span className="h-2 w-2 rounded-full bg-amber-500" />
+                          CTA too early
+                        </div>
+                      </div>
 
+                      <div className="mt-3 grid grid-cols-3 gap-2">
+                        {[
+                          { label: "Fix #1", text: "Headline" },
+                          { label: "Fix #2", text: "Proof" },
+                          { label: "Fix #3", text: "CTA" },
+                        ].map((fix, i) => (
+                          <div
+                            key={i}
+                            className="rounded-lg border border-slate-200 bg-white p-2"
+                          >
+                            <div className="text-[10px] font-semibold text-slate-500">
+                              {fix.label}
+                            </div>
+                            <div className="mt-1 text-xs font-bold text-slate-900">
+                              {fix.text}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
 
-        {/* Pain Points Section - improved spacing */}
-        <section
-          id="approach"
-          className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
-        >
-          <div className="container mx-auto max-w-7xl">
-            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
-                Your Website Should{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-500">
-                  Sell While You Sleep
-                </span>
-              </h2>
-              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
-                These are the silent conversion killers that make qualified prospects bounce — even when they want what you offer.
-              </p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-              {[
-                {
-                  icon: Layout,
-                  title: "Unclear Offer (Above the Fold)",
-                  desc: "If people can’t understand who it’s for, what you do, and why it matters in 5 seconds — they leave.",
-                },
-                {
-                  icon: Shield,
-                  title: "Trust Isn’t Earned Fast Enough",
-                  desc: "Premium buyers need proof, authority, and reassurance immediately — not “scroll and hope.”",
-                },
-                {
-                  icon: Zap,
-                  title: "Weak Booking Momentum",
-                  desc: "The page doesn’t create a clear next step, so visitors “think about it”… and disappear.",
-                },
-                {
-                  icon: Target,
-                  title: "Mobile Friction",
-                  desc: "If booking feels annoying on mobile, it won’t happen. Most coaches lose calls here.",
-                },
-                {
-                  icon: TrendingUp,
-                  title: "No Conversion Path",
-                  desc: "Great content, zero direction. Your site needs a designed journey, not a brochure.",
-                },
-                {
-                  icon: Users,
-                  title: "Attracting the Wrong Leads",
-                  desc: "Messaging that’s too broad pulls tire-kickers and price shoppers instead of ready-to-buy clients.",
-                },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out shadow-lg hover:shadow-xl hover:-translate-y-2 transform cursor-default group animate-fade-in-up"
-                  style={{ animationDelay: `${idx * 100}ms` }}
-                >
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-3">
-                    <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 transition-transform duration-500 group-hover:scale-110" />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{item.desc}</p>
-                  <div className="mt-4 sm:mt-6 flex items-center gap-2">
-                    <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
-                      <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-transform duration-1000 ease-out -translate-x-full group-hover:translate-x-0"></div>
+                    <div className="mt-4 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+                      <div className="text-xs font-semibold text-slate-800">
+                        Free 5-point audit
+                      </div>
+                      <div className="text-[10px] font-semibold text-slate-500">
+                        Email delivery • No meeting
+                      </div>
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </section>
 
-        {/* Promise Section - improved */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6">
-          <div className="container mx-auto max-w-7xl">
-            <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-blue-100 shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out">
-              <div className="max-w-4xl mx-auto">
-                <div className="inline-flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-blue-700 mb-4 sm:mb-6 border border-blue-200 cursor-default transition-all duration-300 hover:scale-105">
-                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-                  <span>What You Get</span>
+        {/* ✅ Everything below fold is deferred to improve mobile LCP */}
+        {showBelowFold && (
+          <>
+            {/* Pain Points Section */}
+            <section
+              id="approach"
+              className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
+            >
+              <div className="container mx-auto max-w-7xl">
+                <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
+                    Your Website Should{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-500">
+                      Sell While You Sleep
+                    </span>
+                  </h2>
+                  <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
+                    These are the silent conversion killers that make qualified
+                    prospects bounce — even when they want what you offer.
+                  </p>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
-                  A Website Built to{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                    Convert High-Intent Visitors
-                  </span>{" "}
-                  Into Calls
-                </h2>
-
-                <p className="text-base sm:text-lg md:text-xl text-slate-700 mb-8 sm:mb-10 leading-relaxed">
-                  We rebuild your front-end around one goal: <span className="font-semibold">booked calls</span>.
-                  Clear messaging, premium positioning, and a frictionless path to action — so the right clients
-                  understand your value and move forward confidently.
-                </p>
-
-                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                   {[
                     {
-                      title: "Core Pages (Conversion First)",
-                      items: [
-                        "Homepage (Primary Conversion Hub)",
-                        "About (Authority + Trust)",
-                        "Services (Offer Clarity + Proof)",
-                        "Contact (Booking Engine)",
-                        "+ One High-Intent Landing Page (Optional Use)",
-                      ],
+                      icon: Layout,
+                      title: "Unclear Offer (Above the Fold)",
+                      desc: "If people can’t understand who it’s for, what you do, and why it matters in 5 seconds — they leave.",
                     },
                     {
-                      title: "Conversion Systems We Install",
-                      items: [
-                        "Clarity-First Messaging",
-                        "Premium Positioning & Trust",
-                        "Conversion-Focused Page Flow",
-                        "Mobile-First UX (No Friction)",
-                        "Social Proof Placement Strategy",
-                      ],
+                      icon: Shield,
+                      title: "Trust Isn’t Earned Fast Enough",
+                      desc: "Premium buyers need proof, authority, and reassurance immediately — not “scroll and hope.”",
                     },
-                  ].map((column, colIdx) => (
+                    {
+                      icon: Zap,
+                      title: "Weak Booking Momentum",
+                      desc: "The page doesn’t create a clear next step, so visitors “think about it”… and disappear.",
+                    },
+                    {
+                      icon: Target,
+                      title: "Mobile Friction",
+                      desc: "If booking feels annoying on mobile, it won’t happen. Most coaches lose calls here.",
+                    },
+                    {
+                      icon: TrendingUp,
+                      title: "No Conversion Path",
+                      desc: "Great content, zero direction. Your site needs a designed journey, not a brochure.",
+                    },
+                    {
+                      icon: Users,
+                      title: "Attracting the Wrong Leads",
+                      desc: "Messaging that’s too broad pulls tire-kickers and price shoppers instead of ready-to-buy clients.",
+                    },
+                  ].map((item, idx) => (
                     <div
-                      key={colIdx}
-                      className="bg-white/80 backdrop-blur-sm p-5 sm:p-6 rounded-xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out cursor-default hover:translate-y-1"
+                      key={idx}
+                      className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out shadow-lg hover:shadow-xl hover:-translate-y-2 transform cursor-default group animate-fade-in-up"
+                      style={{ animationDelay: `${idx * 100}ms` }}
                     >
-                      <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
-                        {column.title}
-                      </h4>
-                      <ul className="space-y-2 sm:space-y-3">
-                        {column.items.map((item, idx) => (
-                          <li key={idx} className="flex items-center gap-2 sm:gap-3 group/item">
-                            <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
-                              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-600" />
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-3">
+                        <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 transition-transform duration-500 group-hover:scale-110" />
+                      </div>
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                        {item.desc}
+                      </p>
+                      <div className="mt-4 sm:mt-6 flex items-center gap-2">
+                        <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-transform duration-1000 ease-out -translate-x-full group-hover:translate-x-0"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Promise Section */}
+            <section className="py-16 sm:py-20 px-4 sm:px-6">
+              <div className="container mx-auto max-w-7xl">
+                <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-blue-100 shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out">
+                  <div className="max-w-4xl mx-auto">
+                    <div className="inline-flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-blue-700 mb-4 sm:mb-6 border border-blue-200 cursor-default transition-all duration-300 hover:scale-105">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
+                      <span>What You Get</span>
+                    </div>
+
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
+                      A Website Built to{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                        Convert High-Intent Visitors
+                      </span>{" "}
+                      Into Calls
+                    </h2>
+
+                    <p className="text-base sm:text-lg md:text-xl text-slate-700 mb-8 sm:mb-10 leading-relaxed">
+                      We rebuild your front-end around one goal:{" "}
+                      <span className="font-semibold">booked calls</span>. Clear
+                      messaging, premium positioning, and a frictionless path to
+                      action — so the right clients understand your value and
+                      move forward confidently.
+                    </p>
+
+                    <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
+                      {[
+                        {
+                          title: "Core Pages (Conversion First)",
+                          items: [
+                            "Homepage (Primary Conversion Hub)",
+                            "About (Authority + Trust)",
+                            "Services (Offer Clarity + Proof)",
+                            "Contact (Booking Engine)",
+                            "+ One High-Intent Landing Page (Optional Use)",
+                          ],
+                        },
+                        {
+                          title: "Conversion Systems We Install",
+                          items: [
+                            "Clarity-First Messaging",
+                            "Premium Positioning & Trust",
+                            "Conversion-Focused Page Flow",
+                            "Mobile-First UX (No Friction)",
+                            "Social Proof Placement Strategy",
+                          ],
+                        },
+                      ].map((column, colIdx) => (
+                        <div
+                          key={colIdx}
+                          className="bg-white/80 backdrop-blur-sm p-5 sm:p-6 rounded-xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out cursor-default hover:translate-y-1"
+                        >
+                          <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg flex items-center gap-2">
+                            <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
+                            {column.title}
+                          </h4>
+                          <ul className="space-y-2 sm:space-y-3">
+                            {column.items.map((item, idx) => (
+                              <li
+                                key={idx}
+                                className="flex items-center gap-2 sm:gap-3"
+                              >
+                                <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                  <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-600" />
+                                </div>
+                                <span className="text-xs sm:text-sm text-slate-700">
+                                  {item}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Scope Section */}
+            <section
+              id="scope"
+              className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
+            >
+              <div className="container mx-auto max-w-7xl">
+                <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
+                    Best Fit for Coaches Who Want{" "}
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      More Calls
+                    </span>{" "}
+                    (Not More Busywork)
+                  </h2>
+                  <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
+                    We focus on conversion-first front-end redesign — not
+                    “everything for everyone.”
+                  </p>
+                </div>
+
+                <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
+                  <div className="animate-fade-in-left">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-green-200 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
+                      <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                          <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                        </div>
+                        Perfect If You’re…
+                      </h3>
+                      <ul className="space-y-3 sm:space-y-4">
+                        {[
+                          "Selling a premium service (coaching, consulting, done-for-you)",
+                          "Getting traffic/referrals but booking is inconsistent",
+                          "Ready to tighten your messaging & positioning",
+                          "Tired of attracting low-quality leads and price shoppers",
+                          "Looking for a mobile-first site that loads fast and drives action",
+                        ].map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 sm:gap-3 cursor-default"
+                          >
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                              <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
                             </div>
-                            <span className="text-xs sm:text-sm text-slate-700">
+                            <span className="text-sm sm:text-base text-slate-700 flex-1">
                               {item}
                             </span>
                           </li>
                         ))}
                       </ul>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Scope Section - improved */}
-        <section
-          id="scope"
-          className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
-        >
-          <div className="container mx-auto max-w-7xl">
-            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
-                Best Fit for Coaches Who Want{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  More Calls
-                </span>{" "}
-                (Not More Busywork)
-              </h2>
-              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
-                We focus on conversion-first front-end redesign — not “everything for everyone.”
-              </p>
-            </div>
-
-            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
-              {/* Left Column */}
-              <div className="animate-fade-in-left">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-green-200 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-                      <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                    </div>
-                    Perfect If You’re…
-                  </h3>
-                  <ul className="space-y-3 sm:space-y-4">
-                    {[
-                      "Selling a premium service (coaching, consulting, done-for-you)",
-                      "Getting traffic/referrals but booking is inconsistent",
-                      "Ready to tighten your messaging & positioning",
-                      "Tired of attracting low-quality leads and price shoppers",
-                      "Looking for a mobile-first site that loads fast and drives action",
-                    ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2 sm:gap-3 group cursor-default">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
-                        </div>
-                        <span className="text-sm sm:text-base text-slate-700 flex-1">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="animate-fade-in-right">
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-slate-300 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
-                      <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                    </div>
-                    Not a Fit If You Need…
-                  </h3>
-                  <ul className="space-y-3 sm:space-y-4">
-                    {[
-                      "Custom backends or complex databases",
-                      "Membership portals or LMS platforms",
-                      "Large web apps or data-heavy dashboards",
-                      "E-commerce with complex inventory management",
-                      "Community or social network features",
-                    ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-2 sm:gap-3 group cursor-default">
-                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-slate-200 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
-                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-slate-500" />
-                        </div>
-                        <span className="text-sm sm:text-base text-slate-500 flex-1">
-                          {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 rounded-lg border border-slate-200">
-                    <p className="text-xs sm:text-sm text-slate-600 italic">
-                      “We don’t try to do everything. We specialize in conversion-focused front-end redesigns
-                      that turn your current traffic into booked calls — fast.”
-                    </p>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
-        {/* Process Section - improved grid */}
-        <section id="process" className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
-          <div className="container mx-auto max-w-7xl">
-            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-                  Simple Process.
-                </span>{" "}
-                Serious Results.
-              </h2>
-              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
-                Built for busy operators: clear steps, fast execution, measurable outcomes.
-              </p>
-            </div>
-
-            <div className="relative">
-              <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 transform -translate-y-1/2"></div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
-                {[
-                  {
-                    step: "01",
-                    title: "Conversion Audit",
-                    desc: "We find the exact spots you’re leaking calls (clarity, trust, CTA, mobile flow).",
-                  },
-                  {
-                    step: "02",
-                    title: "Offer & Messaging Clarity",
-                    desc: "We sharpen positioning so the right clients instantly understand your value.",
-                  },
-                  {
-                    step: "03",
-                    title: "Wireframe the Booking Journey",
-                    desc: "We design a frictionless path from first glance → trust → action.",
-                  },
-                  {
-                    step: "04",
-                    title: "Premium Front-End Implementation",
-                    desc: "Fast, responsive build optimized for performance + conversions.",
-                  },
-                  {
-                    step: "05",
-                    title: "Launch + Tracking",
-                    desc: "We ensure tracking works and review what happens after launch.",
-                  },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="relative z-10 animate-fade-in-up"
-                    style={{ animationDelay: `${idx * 150}ms` }}
-                  >
-                    <div className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-blue-100 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-3 transform cursor-default group h-full">
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-12">
-                          {item.step}
+                  <div className="animate-fade-in-right">
+                    <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-slate-300 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
+                      <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                          <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         </div>
-                      </div>
-                      <div className="pt-6 sm:pt-8 text-center">
-                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-800">
-                          {item.desc}
+                        Not a Fit If You Need…
+                      </h3>
+                      <ul className="space-y-3 sm:space-y-4">
+                        {[
+                          "Custom backends or complex databases",
+                          "Membership portals or LMS platforms",
+                          "Large web apps or data-heavy dashboards",
+                          "E-commerce with complex inventory management",
+                          "Community or social network features",
+                        ].map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-start gap-2 sm:gap-3 cursor-default"
+                          >
+                            <div className="w-5 h-5 sm:w-6 sm:h-6 bg-slate-200 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                              <X className="w-3 h-3 sm:w-4 sm:h-4 text-slate-500" />
+                            </div>
+                            <span className="text-sm sm:text-base text-slate-500 flex-1">
+                              {item}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 rounded-lg border border-slate-200">
+                        <p className="text-xs sm:text-sm text-slate-600 italic">
+                          “We don’t try to do everything. We specialize in
+                          conversion-focused front-end redesigns that turn your
+                          current traffic into booked calls — fast.”
                         </p>
                       </div>
                     </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
+            </section>
 
-            <div className="mt-12 sm:mt-16 text-center animate-fade-in-up">
-              <p className="text-base sm:text-lg text-slate-600 mb-6 sm:mb-8 px-4">
-                Want to know why your site isn’t booking calls? I’ll tell you. Free.
-              </p>
-              <button
-                onClick={handleContactClick}
-                className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-xl"
-                aria-label="Get free conversion audit"
-              >
-                <span>Get My Free 5-Point Audit</span>
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1 duration-300" />
-              </button>
-            </div>
-          </div>
-        </section>
+            {/* Process Section */}
+            <section
+              id="process"
+              className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20"
+            >
+              <div className="container mx-auto max-w-7xl">
+                <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Simple Process.
+                    </span>{" "}
+                    Serious Results.
+                  </h2>
+                  <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
+                    Built for busy operators: clear steps, fast execution,
+                    measurable outcomes.
+                  </p>
+                </div>
 
-        {/* Final CTA - improved */}
-        <section className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
-          <div className="container mx-auto max-w-5xl">
-            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center text-white shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out overflow-hidden relative">
-              <div className="absolute top-1/4 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
-              <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slower"></div>
+                <div className="relative">
+                  <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 transform -translate-y-1/2"></div>
 
-              <div className="relative z-10 max-w-3xl mx-auto">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
-                  Get a Free Audit That Shows{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">
-                    Exactly What to Fix
-                  </span>
-                </h2>
-
-                <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-6 sm:mb-8 lg:mb-10 leading-relaxed">
-                  I’ll review your site and send back a short, actionable breakdown: what’s hurting conversions,
-                  what to change first, and how to increase booked calls — without buying more traffic.
-                </p>
-
-                <div className="max-w-md mx-auto mb-6 sm:mb-8 bg-slate-800/50 rounded-xl p-4 sm:p-6 border border-slate-700">
-                  <h4 className="font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
-                    <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-                    What You’ll Receive:
-                  </h4>
-                  <ul className="space-y-2 sm:space-y-3 text-left">
+                  <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
                     {[
-                      "Above-the-fold clarity + offer positioning",
-                      "Trust + authority gaps (proof placement)",
-                      "CTA + booking flow friction (mobile + desktop)",
-                      "3 priority fixes you can implement immediately",
+                      {
+                        step: "01",
+                        title: "Conversion Audit",
+                        desc: "We find the exact spots you’re leaking calls (clarity, trust, CTA, mobile flow).",
+                      },
+                      {
+                        step: "02",
+                        title: "Offer & Messaging Clarity",
+                        desc: "We sharpen positioning so the right clients instantly understand your value.",
+                      },
+                      {
+                        step: "03",
+                        title: "Wireframe the Booking Journey",
+                        desc: "We design a frictionless path from first glance → trust → action.",
+                      },
+                      {
+                        step: "04",
+                        title: "Premium Front-End Implementation",
+                        desc: "Fast, responsive build optimized for performance + conversions.",
+                      },
+                      {
+                        step: "05",
+                        title: "Launch + Tracking",
+                        desc: "We ensure tracking works and review what happens after launch.",
+                      },
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-2 sm:gap-3 text-slate-300 group">
-                        <div className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
-                          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
+                      <div
+                        key={idx}
+                        className="relative z-10 animate-fade-in-up"
+                        style={{ animationDelay: `${idx * 150}ms` }}
+                      >
+                        <div className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-blue-100 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-3 transform cursor-default group h-full">
+                          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-12">
+                              {item.step}
+                            </div>
+                          </div>
+                          <div className="pt-6 sm:pt-8 text-center">
+                            <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
+                              {item.title}
+                            </h3>
+                            <p className="text-xs sm:text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-800">
+                              {item.desc}
+                            </p>
+                          </div>
                         </div>
-                        <span className="text-xs sm:text-sm">{item}</span>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
 
-                <button
-                  onClick={handleContactClick}
-                  className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-2xl"
-                  aria-label="Request your free conversion audit"
-                >
-                  <span>Send Me the Free Audit</span>
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
-
-                <p className="mt-4 sm:mt-6 text-slate-400 text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2">
-                  <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
-                  No pressure • No spam • Just a clear plan to get more calls
-                </p>
+                <div className="mt-12 sm:mt-16 text-center animate-fade-in-up">
+                  <p className="text-base sm:text-lg text-slate-600 mb-6 sm:mb-8 px-4">
+                    Want to know why your site isn’t booking calls? I’ll tell
+                    you. Free.
+                  </p>
+                  <button
+                    onClick={handleContactClick}
+                    className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-xl"
+                    aria-label="Get free conversion audit"
+                  >
+                    <span>Get My Free 5-Point Audit</span>
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1 duration-300" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
 
-        {/* Footer - improved */}
-        <footer className="py-10 sm:py-12 px-4 sm:px-6 border-t border-slate-200 bg-white">
-          <div className="container mx-auto max-w-7xl">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
-              <div className="text-center md:text-left">
-                <button
-                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 group cursor-pointer transition-transform duration-300 hover:scale-105 mx-auto md:mx-0"
-                  aria-label="Go to top"
-                >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                    <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                  </div>
-                  <div>
-                    <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                      ConversionFlow
+            {/* Final CTA */}
+            <section className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
+              <div className="container mx-auto max-w-5xl">
+                <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center text-white shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out overflow-hidden relative">
+                  <div className="absolute top-1/4 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
+                  <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slower"></div>
+
+                  <div className="relative z-10 max-w-3xl mx-auto">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
+                      Get a Free Audit That Shows{" "}
+                      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">
+                        Exactly What to Fix
+                      </span>
+                    </h2>
+
+                    <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-6 sm:mb-8 lg:mb-10 leading-relaxed">
+                      I’ll review your site and send back a short, actionable
+                      breakdown: what’s hurting conversions, what to change
+                      first, and how to increase booked calls — without buying
+                      more traffic.
+                    </p>
+
+                    <div className="max-w-md mx-auto mb-6 sm:mb-8 bg-slate-800/50 rounded-xl p-4 sm:p-6 border border-slate-700">
+                      <h4 className="font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+                        <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
+                        What You’ll Receive:
+                      </h4>
+                      <ul className="space-y-2 sm:space-y-3 text-left">
+                        {[
+                          "Above-the-fold clarity + offer positioning",
+                          "Trust + authority gaps (proof placement)",
+                          "CTA + booking flow friction (mobile + desktop)",
+                          "3 priority fixes you can implement immediately",
+                        ].map((item, idx) => (
+                          <li
+                            key={idx}
+                            className="flex items-center gap-2 sm:gap-3 text-slate-300"
+                          >
+                            <div className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
+                            </div>
+                            <span className="text-xs sm:text-sm">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                    <div className="text-[10px] sm:text-xs text-slate-500">Website Redesign</div>
-                  </div>
-                </button>
-                <p className="text-xs sm:text-sm text-slate-600 max-w-md">
-                  Conversion-first front-end redesign for coaches &amp; consultants — turning existing traffic into booked calls with clarity, trust, and flow.
-                </p>
-              </div>
 
-              <div className="flex flex-col items-center md:items-end gap-3 sm:gap-4">
-                <div className="text-xs sm:text-sm text-slate-500 text-center md:text-right">
-                  <p>© {new Date().getFullYear()} ConversionFlow • Global Service</p>
-                  <p className="mt-1">No Backend Projects • Conversion-Focused Only</p>
-                </div>
-                <div className="flex gap-2 sm:gap-3">
-                  {["Coaches", "Consultants", "Conversion-First"].map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="px-2 sm:px-3 py-1 bg-slate-100 text-slate-700 text-[10px] sm:text-xs rounded-full font-medium"
+                    <button
+                      onClick={handleContactClick}
+                      className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-2xl"
+                      aria-label="Request your free conversion audit"
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      <span>Send Me the Free Audit</span>
+                      <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                    </button>
+
+                    <p className="mt-4 sm:mt-6 text-slate-400 text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2">
+                      <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
+                      No pressure • No spam • Just a clear plan to get more calls
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </footer>
+            </section>
 
-        {/* Contact Form Modal - improved */}
+            {/* Footer */}
+            <footer className="py-10 sm:py-12 px-4 sm:px-6 border-t border-slate-200 bg-white">
+              <div className="container mx-auto max-w-7xl">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
+                  <div className="text-center md:text-left">
+                    <button
+                      onClick={() =>
+                        window.scrollTo({ top: 0, behavior: "smooth" })
+                      }
+                      className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 group cursor-pointer transition-transform duration-300 hover:scale-105 mx-auto md:mx-0"
+                      aria-label="Go to top"
+                    >
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                      </div>
+                      <div>
+                        <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                          ConversionFlow
+                        </div>
+                        <div className="text-[10px] sm:text-xs text-slate-500">
+                          Website Redesign
+                        </div>
+                      </div>
+                    </button>
+                    <p className="text-xs sm:text-sm text-slate-600 max-w-md">
+                      Conversion-first front-end redesign for coaches &amp;
+                      consultants — turning existing traffic into booked calls
+                      with clarity, trust, and flow.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col items-center md:items-end gap-3 sm:gap-4">
+                    <div className="text-xs sm:text-sm text-slate-500 text-center md:text-right">
+                      <p>© {new Date().getFullYear()} ConversionFlow • Global Service</p>
+                      <p className="mt-1">No Backend Projects • Conversion-Focused Only</p>
+                    </div>
+                    <div className="flex gap-2 sm:gap-3">
+                      {["Coaches", "Consultants", "Conversion-First"].map((tag, idx) => (
+                        <span
+                          key={idx}
+                          className="px-2 sm:px-3 py-1 bg-slate-100 text-slate-700 text-[10px] sm:text-xs rounded-full font-medium"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </>
+        )}
+
+        {/* Sticky bottom CTA for mobile */}
+        <MobileStickyCTA onClick={handleContactClick} />
+
+        {/* Contact Form Modal */}
         {showContactForm && (
           <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
             <div
@@ -994,8 +1106,8 @@ export default function Home() {
                       Request Received!
                     </h3>
                     <p className="text-sm sm:text-base text-gray-700 mb-4">
-                      Got it — I’ve received your request. You’ll get your audit within{" "}
-                      <span className="font-semibold">8–12 hours</span>.
+                      Got it — I’ve received your request. You’ll get your audit
+                      within <span className="font-semibold">8–12 hours</span>.
                     </p>
                   </div>
                 ) : (
@@ -1008,8 +1120,8 @@ export default function Home() {
                         Free 5-Point Conversion Audit
                       </h3>
                       <p className="text-xs sm:text-sm text-gray-700">
-                        Share your site + goals. I’ll send a clear breakdown within{" "}
-                        <span className="font-semibold">8–12 hours</span>.
+                        Share your site + goals. I’ll send a clear breakdown
+                        within <span className="font-semibold">8–12 hours</span>.
                       </p>
                     </div>
 
@@ -1148,13 +1260,23 @@ export default function Home() {
           }
 
           @keyframes pulse-slow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.5; }
+            0%,
+            100% {
+              opacity: 0.3;
+            }
+            50% {
+              opacity: 0.5;
+            }
           }
 
           @keyframes pulse-slower {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.4; }
+            0%,
+            100% {
+              opacity: 0.2;
+            }
+            50% {
+              opacity: 0.4;
+            }
           }
 
           .animate-fade-in-up {
@@ -1195,6 +1317,31 @@ export default function Home() {
           * {
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+          }
+
+          /* ✅ Big mobile win: disable backdrop-filter on mobile (minimal visual change) */
+          @media (max-width: 767px) {
+            .backdrop-blur,
+            .backdrop-blur-sm,
+            .backdrop-blur-md,
+            .backdrop-blur-lg,
+            .backdrop-blur-xl,
+            .backdrop-blur-2xl {
+              backdrop-filter: none !important;
+              -webkit-backdrop-filter: none !important;
+            }
+
+            /* Optional but usually helps LCP further */
+            .animate-fade-in-up,
+            .animate-fade-in-left,
+            .animate-fade-in-right {
+              animation: none !important;
+            }
+
+            /* Keep content visible above sticky CTA */
+            body {
+              padding-bottom: 92px;
+            }
           }
 
           ::-webkit-scrollbar {
