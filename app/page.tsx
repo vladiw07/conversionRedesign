@@ -23,6 +23,8 @@ import {
   Rocket,
 } from "lucide-react";
 
+
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -376,189 +378,163 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Hero Section - IMPROVED RESPONSIVE */}
-        <section className="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6">
-          {/* Background with better gradient */}
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/60 to-indigo-200/40 blur-3xl" />
-            <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/40 to-sky-200/30 blur-3xl" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.10),transparent_55%)]" />
-            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.92),rgba(255,255,255,0.98))]" />
+        {/* Hero Section - MOBILE-FIRST, KEYWORD-MIRRORED */}
+<section className="relative overflow-hidden pt-24 sm:pt-32 pb-14 sm:pb-20 px-4 sm:px-6">
+  {/* Background (lighter on mobile for speed/clarity) */}
+  <div className="absolute inset-0 -z-10">
+    <div className="absolute -top-24 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/50 to-indigo-200/35 blur-3xl" />
+    <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/35 to-sky-200/25 blur-3xl hidden sm:block" />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_55%)]" />
+    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.94),rgba(255,255,255,0.985))]" />
+  </div>
+
+  <div className="container mx-auto max-w-7xl relative">
+    <div className="grid items-start gap-8 lg:gap-12 lg:grid-cols-2">
+      {/* LEFT */}
+      <div className="text-center lg:text-left">
+        {/* Badge */}
+        <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm backdrop-blur">
+          <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+          <span>Coach & Consultant Website Design</span>
+          <span className="mx-1 h-3 w-px bg-slate-200 hidden sm:inline" />
+          <span className="font-medium text-slate-600">Built to get booked calls</span>
+        </div>
+
+        {/* H1 — mirrors search intent FIRST */}
+        <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+            Website Design
+          </span>{" "}
+          for Coaches & Consultants
+          <span className="block mt-2 text-slate-900">
+            That Turns Visitors Into{" "}
+            <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
+              Booked Calls
+            </span>
+          </span>
+        </h1>
+
+        {/* Subheading — 1 punchy sentence on mobile */}
+        <p className="mt-4 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
+          Redesign your site so people instantly understand your offer, trust you fast, and take the next step —
+          <b className="text-slate-800"> especially on mobile</b>.
+        </p>
+
+        {/* CTA FIRST (shorter label) */}
+        <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+          <button
+            onClick={handleContactClick}
+            className="group relative px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-white font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] bg-gradient-to-r from-blue-600 to-indigo-600 w-full sm:w-auto"
+            aria-label="Get your free conversion audit"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
+              Get My Free Audit
+              <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" />
+            </span>
+          </button>
+
+          <button
+            onClick={handleProcessButtonClick}
+            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white/85 backdrop-blur border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto"
+            aria-label="See the process"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <span className="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-slate-900/5">
+                <Clock className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+              </span>
+              See the process
+            </span>
+          </button>
+        </div>
+
+        {/* Reassurance */}
+        <p className="mt-3 text-xs sm:text-sm text-slate-500">
+          <span className="font-semibold text-slate-700">No sales call trap.</span> Audit delivered by email within{" "}
+          <span className="font-semibold">8–12 hours</span>.
+        </p>
+
+        {/* Trust chips AFTER CTA (don’t push CTA down) */}
+        <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+          {[
+            { icon: <Clock className="h-4 w-4" />, text: "8–12 hour delivery" },
+            { icon: <Check className="h-4 w-4" />, text: "No call required" },
+            { icon: <Check className="h-4 w-4" />, text: "Priority fix list" },
+          ].map((c, i) => (
+            <div
+              key={i}
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur"
+            >
+              <span className="text-blue-600">{c.icon}</span>
+              <span>{c.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* RIGHT — PROOF CARD (show earlier on mobile) */}
+      <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full order-2 lg:order-none">
+        <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white/75 backdrop-blur shadow-xl overflow-hidden">
+          <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
+            <div className="flex items-center gap-2">
+              <div className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-amber-400/80" />
+              <div className="h-2.5 w-2.5 rounded-full bg-emerald-400/80" />
+            </div>
+            <div className="text-xs font-semibold text-slate-500">Audit preview</div>
           </div>
 
-          <div className="container mx-auto max-w-7xl relative">
-            <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
-              {/* LEFT: Copy - IMPROVED TYPOGRAPHY */}
-              <div className="text-center lg:text-left">
-                {/* Badge - more compact on mobile */}
-                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm backdrop-blur max-w-full">
-                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>For coaches & consultants selling $2k+ offers</span>
-                  <span className="hidden xs:inline mx-1 h-3 w-px bg-slate-200" />
-                  <span className="font-medium text-slate-600 whitespace-nowrap">Getting clicks, no calls</span>
-                </div>
-
-                {/* Pattern Interrupt - better mobile */}
-                <div className="mt-4 sm:mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-xs sm:text-sm text-white shadow-md max-w-full">
-                  <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-lg bg-white/10 flex-shrink-0">
-                    <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
-                  </span>
-                  <span className="leading-tight">
-                    If people bounce in 2–3 seconds, it’s usually <b>message mismatch</b> + <b>missing proof</b>.
-                  </span>
-                </div>
-
-                {/* H1 - improved responsive sizing */}
-                <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-                  Stop Paying For{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 whitespace-nowrap">
-                    2-Second Clicks
-                  </span>
-                  .<br className="hidden xs:block" /> Turn Existing Traffic Into{" "}
-                  <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
-                    Booked Calls
-                  </span>
-                  .
-                </h1>
-
-                {/* Subheading - better readability */}
-                <p className="mt-4 sm:mt-5 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
-                  We diagnose <b className="text-slate-800">why visitors don’t book</b> (clarity, trust, CTA friction, mobile
-                  issues) and deliver a <b className="text-slate-800">prioritized fix plan</b> with screenshots + copy options —
-                  so the right prospects immediately “get it.”
-                </p>
-
-                {/* Trust chips - improved wrapping */}
-                <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2">
-                  {[
-                    { icon: <Clock className="h-3 w-3 sm:h-4 sm:w-4" />, text: "Delivered in 8–12 hours" },
-                    { icon: <Check className="h-3 w-3 sm:h-4 sm:w-4" />, text: "No call required" },
-                    { icon: <Check className="h-3 w-3 sm:h-4 sm:w-4" />, text: "Actionable priority list" },
-                  ].map((c, i) => (
-                    <div
-                      key={i}
-                      className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-200 bg-white/70 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur whitespace-nowrap"
-                    >
-                      <span className="text-blue-600">{c.icon}</span>
-                      <span>{c.text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* CTAs - improved stacking */}
-                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
-                  <button
-                    onClick={handleContactClick}
-                    className="group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-white font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] bg-gradient-to-r from-blue-600 to-indigo-600 w-full sm:w-auto"
-                    aria-label="Get your free conversion audit"
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
-                      Get My Free Audit (Screenshots + Fix List)
-                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" />
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={handleProcessButtonClick}
-                    className="group px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto"
-                    aria-label="See the process"
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-slate-900/5">
-                        <Clock className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:rotate-180" />
-                      </span>
-                      See the 2–3 Day Process
-                    </span>
-                  </button>
-                </div>
-
-                {/* Reassurance */}
-                <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-slate-500">
-                  <span className="font-semibold text-slate-700">No sales call trap.</span> You’ll receive the audit by email
-                  first.
-                </p>
+          <div className="p-4 sm:p-6">
+            <div className="flex items-start gap-3">
+              <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-700 flex-shrink-0">
+                <BarChart3 className="h-5 w-5" />
               </div>
-
-              {/* RIGHT: Visual proof card - improved scaling */}
-              <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full">
-                <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white/70 backdrop-blur shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-                  {/* Top bar */}
-                  <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
-                    <div className="flex items-center gap-1.5 sm:gap-2">
-                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-red-400/80" />
-                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-amber-400/80" />
-                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-400/80" />
-                    </div>
-                    <div className="text-xs font-semibold text-slate-500">Audit preview</div>
-                  </div>
-
-                  <div className="p-4 sm:p-6">
-                    <div className="flex items-start gap-2 sm:gap-3">
-                      <div className="mt-0.5 inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl sm:rounded-2xl bg-blue-600/10 text-blue-700 flex-shrink-0">
-                        <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
-                      </div>
-                      <div>
-                        <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
-                          “Here’s why people bounce — and what to fix first”
-                        </h3>
-                        <p className="mt-1 text-xs sm:text-sm text-slate-600">
-                          You’ll get annotated screenshots + rewritten headline options + a priority order.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Fake “annotated screenshot” skeleton - improved responsive */}
-                    <div className="mt-4 sm:mt-5 rounded-xl sm:rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 sm:p-4">
-                      <div className="flex items-center justify-between">
-                        <div className="h-2.5 sm:h-3 w-32 sm:w-40 rounded bg-slate-200" />
-                        <div className="h-6 sm:h-7 w-20 sm:w-24 rounded-lg bg-blue-600/15 border border-blue-600/20" />
-                      </div>
-
-                      <div className="mt-3 sm:mt-4 space-y-2 sm:space-y-3">
-                        <div className="h-3 sm:h-4 w-full sm:w-[85%] rounded bg-slate-200" />
-                        <div className="h-3 sm:h-4 w-4/5 sm:w-[70%] rounded bg-slate-200" />
-                        
-                        {/* Preview image with annotations - improved positioning */}
-                        <div className="h-16 sm:h-20 w-full rounded-lg sm:rounded-xl bg-slate-100 border border-slate-200 relative overflow-hidden">
-                          <div className="absolute left-1 sm:left-4 top-1 sm:top-4 inline-flex items-center gap-1 sm:gap-2 rounded-full bg-white/90 border border-slate-200 px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-slate-700 shadow-sm">
-                            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-red-500" />
-                            Message mismatch
-                          </div>
-                          <div className="absolute right-1 sm:right-4 bottom-1 sm:bottom-4 inline-flex items-center gap-1 sm:gap-2 rounded-full bg-white/90 border border-slate-200 px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-slate-700 shadow-sm">
-                            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-amber-500" />
-                            CTA friction
-                          </div>
-                        </div>
-
-                        {/* Fix boxes - better grid */}
-                        <div className="grid grid-cols-3 gap-1 sm:gap-2">
-                          {[
-                            { label: "Fix #1", text: "Headline" },
-                            { label: "Fix #2", text: "Proof" },
-                            { label: "Fix #3", text: "CTA" }
-                          ].map((fix, i) => (
-                            <div key={i} className="rounded-lg sm:rounded-xl border border-slate-200 bg-white p-1.5 sm:p-3">
-                              <div className="text-[10px] sm:text-xs font-semibold text-slate-500">{fix.label}</div>
-                              <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm font-bold text-slate-900">{fix.text}</div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Micro trust line */}
-                    <div className="mt-4 sm:mt-5 flex items-center justify-between rounded-xl sm:rounded-2xl border border-slate-200 bg-white px-3 sm:px-4 py-2 sm:py-3">
-                      <div className="text-xs sm:text-sm font-semibold text-slate-800">Free 5-point audit</div>
-                      <div className="text-[10px] sm:text-xs font-semibold text-slate-500">Email delivery • No meeting</div>
-                    </div>
-                  </div>
-                </div>
-
-                
+              <div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                  “Here’s what’s stopping calls — and what to fix first”
+                </h3>
+                <p className="mt-1 text-xs sm:text-sm text-slate-600">
+                  Annotated screenshots + headline options + priority order.
+                </p>
               </div>
             </div>
+
+            <div className="mt-4 rounded-xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3">
+              <div className="h-14 w-full rounded-lg bg-slate-100 border border-slate-200 relative overflow-hidden">
+                <div className="absolute left-3 top-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-red-500" />
+                  Offer not clear fast
+                </div>
+                <div className="absolute right-3 bottom-3 inline-flex items-center gap-2 rounded-full bg-white/90 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700 shadow-sm">
+                  <span className="h-2 w-2 rounded-full bg-amber-500" />
+                  CTA too early
+                </div>
+              </div>
+
+              <div className="mt-3 grid grid-cols-3 gap-2">
+                {[
+                  { label: "Fix #1", text: "Headline" },
+                  { label: "Fix #2", text: "Proof" },
+                  { label: "Fix #3", text: "CTA" },
+                ].map((fix, i) => (
+                  <div key={i} className="rounded-lg border border-slate-200 bg-white p-2">
+                    <div className="text-[10px] font-semibold text-slate-500">{fix.label}</div>
+                    <div className="mt-1 text-xs font-bold text-slate-900">{fix.text}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2">
+              <div className="text-xs font-semibold text-slate-800">Free 5-point audit</div>
+              <div className="text-[10px] font-semibold text-slate-500">Email delivery • No meeting</div>
+            </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         {/* Pain Points Section - improved spacing */}
         <section
