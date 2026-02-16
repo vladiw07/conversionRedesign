@@ -377,84 +377,95 @@ export default function Home() {
         </nav>
 
         {/* Hero Section */}
-        <section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
-          {/* Animated Background Elements */}
-          <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
-          <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slower"></div>
+<section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
+  {/* Animated Background Elements */}
+  <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
+  <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slower"></div>
 
-          <div className="container mx-auto max-w-4xl text-center relative z-10">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-8 animate-fade-in-up cursor-default border border-blue-100 shadow-sm">
-              <Sparkles className="w-4 h-4 animate-pulse" />
-              <span>For Coaches &amp; Consultants With Traffic (But No Calls)</span>
+  <div className="container mx-auto max-w-4xl text-center relative z-10">
+    {/* Badge */}
+    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-8 animate-fade-in-up cursor-default border border-blue-100 shadow-sm">
+      <Sparkles className="w-4 h-4 animate-pulse" />
+      <span>For Coaches &amp; Consultants Selling $2k+ Offers (With Traffic, But No Calls)</span>
+    </div>
+
+    {/* H1 */}
+    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100">
+      Turn Website Visitors Into{" "}
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 animate-gradient-x">
+        Booked Calls
+      </span>{" "}
+      — Without More Traffic
+    </h1>
+
+    {/* Subheading */}
+    <p className="text-lg sm:text-xl text-slate-600 mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
+      If you’re getting clicks but not consults, the issue usually isn’t your offer — it’s your site’s{" "}
+      <span className="font-semibold text-slate-800">clarity, trust, and booking flow</span>. We redesign your
+      front-end so the right prospects immediately “get it” and taking the next step feels effortless —{" "}
+      <span className="font-semibold text-slate-800">mobile-first, fast, and conversion-led</span>.
+    </p>
+
+    {/* Scanner Bullets */}
+    <div className="max-w-2xl mx-auto mb-6 animate-fade-in-up animation-delay-250">
+      <div className="grid gap-3 text-left sm:text-center">
+        {[
+          "Identify the exact reason visitors don’t book (clarity, trust, CTA, mobile friction)",
+          "Get a prioritized fix list (what to change first to increase calls)",
+          "Delivered in 8–12 hours — no call required",
+        ].map((t, i) => (
+          <div
+            key={i}
+            className="flex items-start sm:items-center gap-3 justify-start sm:justify-center text-slate-700"
+          >
+            <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
+              <Check className="w-4 h-4 text-blue-600" />
             </div>
-
-            {/* H1 */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100">
-              Turn Website Visitors Into{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 animate-gradient-x">
-                Booked Calls
-              </span>{" "}
-              — Without More Traffic
-            </h1>
-
-            {/* Subheading */}
-            <p className="text-lg sm:text-xl text-slate-600 mb-10 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-              If you’re getting clicks but not consults, the issue usually isn’t your offer — it’s your
-              site’s clarity, trust, and flow. We redesign your front-end to{" "}
-              <span className="font-semibold text-slate-800">
-                position you as the obvious choice and make booking feel effortless
-              </span>
-              —mobile-first, fast, and conversion-led.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-300">
-              <button
-                onClick={handleContactClick}
-                className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                aria-label="Get your free conversion audit"
-              >
-                <span>Get My Free 5-Point Audit</span>
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
-              </button>
-              <button
-                onClick={handleProcessButtonClick}
-                className="group px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 ease-out text-lg cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                aria-label="See the process"
-              >
-                <span className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 transition-transform group-hover:rotate-180 duration-700" />
-                  See the 2–3 Day Process
-                </span>
-              </button>
-            </div>
-
-            {/* Trust Indicators */}
-            <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6 opacity-80 animate-fade-in-up animation-delay-400">
-              {[
-                { icon: Users, text: "Audit Framework", stat: "5-Point" },
-                { icon: Globe, text: "Built for Buyers", stat: "Not “Pretty”" },
-                { icon: Zap, text: "Typical Turnaround", stat: "2–3 Days" },
-                { icon: Shield, text: "No Backend Work", stat: "Guaranteed" },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-slate-200 hover:border-blue-300 transition-all duration-300 ease-out cursor-default hover:scale-105 transform group"
-                >
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <item.icon className="w-5 h-5 text-blue-600 transition-transform group-hover:scale-110 duration-300" />
-                    <div className="text-2xl font-bold text-slate-900">
-                      {item.stat}
-                    </div>
-                  </div>
-                  <div className="text-sm text-slate-600 font-medium">
-                    {item.text}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <span className="text-base sm:text-lg">{t}</span>
           </div>
-        </section>
+        ))}
+      </div>
+    </div>
+
+    {/* 🔥 Micro-Proof Strip (NEW) */}
+    <div className="mb-10 animate-fade-in-up animation-delay-275">
+      <div className="inline-flex items-center gap-3 bg-white border border-slate-200 px-5 py-3 rounded-xl shadow-sm">
+        <BarChart3 className="w-5 h-5 text-blue-600" />
+        <span className="text-sm sm:text-base text-slate-700 font-medium">
+          Audit includes screenshots, rewritten headline suggestions, and a clear priority order.
+        </span>
+      </div>
+    </div>
+
+    {/* CTAs */}
+    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-300">
+      <button
+        onClick={handleContactClick}
+        className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        <span>Get My Free 5-Point Audit</span>
+        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
+      </button>
+
+      <button
+        onClick={handleProcessButtonClick}
+        className="group px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 ease-out text-lg cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      >
+        <span className="flex items-center gap-2">
+          <Clock className="w-4 h-4 transition-transform group-hover:rotate-180 duration-700" />
+          See the 2–3 Day Process
+        </span>
+      </button>
+    </div>
+
+    {/* Reassurance */}
+    <p className="mt-4 text-sm sm:text-base text-slate-500 animate-fade-in-up animation-delay-350">
+      <span className="font-medium text-slate-600">No call required.</span> You’ll receive the audit by email first.
+    </p>
+  </div>
+</section>
+
+
 
         {/* Pain Points Section */}
         <section
