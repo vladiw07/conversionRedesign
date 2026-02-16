@@ -234,7 +234,7 @@ export default function Home() {
               : "bg-transparent py-5"
           }`}
         >
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center">
               {/* Logo */}
               <button
@@ -243,10 +243,10 @@ export default function Home() {
                 aria-label="Go to top"
               >
                 <div className="relative">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 ease-out">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300 ease-out">
                     <TrendingUp className="w-6 h-6 text-white transition-transform group-hover:rotate-12 duration-300" />
                   </div>
-                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white"></div>
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
                 </div>
                 <div>
                   <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent leading-tight">
@@ -288,7 +288,7 @@ export default function Home() {
                 ))}
                 <button
                   onClick={handleContactClick}
-                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:opacity-90 transition-all duration-300 ease-out shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="px-6 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:shadow-xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 group focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-300"
                   aria-label="Get free conversion audit"
                 >
                   <span>Free Conversion Audit</span>
@@ -309,7 +309,7 @@ export default function Home() {
                 aria-expanded={isMenuOpen}
               >
                 {isMenuOpen ? (
-                  <X className="w-6 h-6 transition-transform duration-300" />
+                  <X className="w-6 h-6 transition-transform duration-300 rotate-90" />
                 ) : (
                   <Menu className="w-6 h-6 transition-transform duration-300" />
                 )}
@@ -364,7 +364,7 @@ export default function Home() {
                   ))}
                   <button
                     onClick={handleContactClick}
-                    className="mt-2 p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl hover:opacity-90 transition-all duration-300 ease-out shadow-lg hover:shadow-xl cursor-pointer flex items-center justify-center gap-2 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="mt-2 p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl hover:shadow-xl transition-all duration-300 ease-out shadow-lg cursor-pointer flex items-center justify-center gap-2 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     aria-label="Get free conversion audit"
                   >
                     Get My Free Audit
@@ -376,116 +376,209 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Hero Section */}
-<section className="pt-32 pb-20 px-4 sm:px-6 relative overflow-hidden">
-  {/* Animated Background Elements */}
-  <div className="absolute top-20 left-10 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-slow"></div>
-  <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-100 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse-slower"></div>
-
-  <div className="container mx-auto max-w-4xl text-center relative z-10">
-    {/* Badge */}
-    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-8 animate-fade-in-up cursor-default border border-blue-100 shadow-sm">
-      <Sparkles className="w-4 h-4 animate-pulse" />
-      <span>For Coaches &amp; Consultants Selling $2k+ Offers (With Traffic, But No Calls)</span>
-    </div>
-
-    {/* H1 */}
-    <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-900 mb-6 leading-tight animate-fade-in-up animation-delay-100">
-      Turn Website Visitors Into{" "}
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 animate-gradient-x">
-        Booked Calls
-      </span>{" "}
-      — Without More Traffic
-    </h1>
-
-    {/* Subheading */}
-    <p className="text-lg sm:text-xl text-slate-600 mb-6 max-w-3xl mx-auto leading-relaxed animate-fade-in-up animation-delay-200">
-      If you’re getting clicks but not consults, the issue usually isn’t your offer — it’s your site’s{" "}
-      <span className="font-semibold text-slate-800">clarity, trust, and booking flow</span>. We redesign your
-      front-end so the right prospects immediately “get it” and taking the next step feels effortless —{" "}
-      <span className="font-semibold text-slate-800">mobile-first, fast, and conversion-led</span>.
-    </p>
-
-    {/* Scanner Bullets */}
-    <div className="max-w-2xl mx-auto mb-6 animate-fade-in-up animation-delay-250">
-      <div className="grid gap-3 text-left sm:text-center">
-        {[
-          "Identify the exact reason visitors don’t book (clarity, trust, CTA, mobile friction)",
-          "Get a prioritized fix list (what to change first to increase calls)",
-          "Delivered in 8–12 hours — no call required",
-        ].map((t, i) => (
-          <div
-            key={i}
-            className="flex items-start sm:items-center gap-3 justify-start sm:justify-center text-slate-700"
-          >
-            <div className="w-6 h-6 rounded-full bg-gradient-to-r from-blue-100 to-indigo-100 flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0">
-              <Check className="w-4 h-4 text-blue-600" />
-            </div>
-            <span className="text-base sm:text-lg">{t}</span>
+        {/* Hero Section - IMPROVED RESPONSIVE */}
+        <section className="relative overflow-hidden pt-28 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6">
+          {/* Background with better gradient */}
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute -top-24 left-1/2 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/60 to-indigo-200/40 blur-3xl" />
+            <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/40 to-sky-200/30 blur-3xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.10),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.92),rgba(255,255,255,0.98))]" />
           </div>
-        ))}
-      </div>
-    </div>
 
-    {/* 🔥 Micro-Proof Strip (NEW) */}
-    <div className="mb-10 animate-fade-in-up animation-delay-275">
-      <div className="inline-flex items-center gap-3 bg-white border border-slate-200 px-5 py-3 rounded-xl shadow-sm">
-        <BarChart3 className="w-5 h-5 text-blue-600" />
-        <span className="text-sm sm:text-base text-slate-700 font-medium">
-          Audit includes screenshots, rewritten headline suggestions, and a clear priority order.
-        </span>
-      </div>
-    </div>
+          <div className="container mx-auto max-w-7xl relative">
+            <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-2">
+              {/* LEFT: Copy - IMPROVED TYPOGRAPHY */}
+              <div className="text-center lg:text-left">
+                {/* Badge - more compact on mobile */}
+                <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm backdrop-blur max-w-full">
+                  <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+                  <span>For coaches & consultants selling $2k+ offers</span>
+                  <span className="hidden xs:inline mx-1 h-3 w-px bg-slate-200" />
+                  <span className="font-medium text-slate-600 whitespace-nowrap">Getting clicks, no calls</span>
+                </div>
 
-    {/* CTAs */}
-    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up animation-delay-300">
-      <button
-        onClick={handleContactClick}
-        className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        <span>Get My Free 5-Point Audit</span>
-        <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
-      </button>
+                {/* Pattern Interrupt - better mobile */}
+                <div className="mt-4 sm:mt-6 inline-flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-xs sm:text-sm text-white shadow-md max-w-full">
+                  <span className="inline-flex h-5 w-5 sm:h-6 sm:w-6 items-center justify-center rounded-lg bg-white/10 flex-shrink-0">
+                    <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4" />
+                  </span>
+                  <span className="leading-tight">
+                    If people bounce in 2–3 seconds, it’s usually <b>message mismatch</b> + <b>missing proof</b>.
+                  </span>
+                </div>
 
-      <button
-        onClick={handleProcessButtonClick}
-        className="group px-8 py-4 bg-white text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 ease-out text-lg cursor-pointer active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-      >
-        <span className="flex items-center gap-2">
-          <Clock className="w-4 h-4 transition-transform group-hover:rotate-180 duration-700" />
-          See the 2–3 Day Process
-        </span>
-      </button>
-    </div>
+                {/* H1 - improved responsive sizing */}
+                <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
+                  Stop Paying For{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 whitespace-nowrap">
+                    2-Second Clicks
+                  </span>
+                  .<br className="hidden xs:block" /> Turn Existing Traffic Into{" "}
+                  <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
+                    Booked Calls
+                  </span>
+                  .
+                </h1>
 
-    {/* Reassurance */}
-    <p className="mt-4 text-sm sm:text-base text-slate-500 animate-fade-in-up animation-delay-350">
-      <span className="font-medium text-slate-600">No call required.</span> You’ll receive the audit by email first.
-    </p>
-  </div>
-</section>
+                {/* Subheading - better readability */}
+                <p className="mt-4 sm:mt-5 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
+                  We diagnose <b className="text-slate-800">why visitors don’t book</b> (clarity, trust, CTA friction, mobile
+                  issues) and deliver a <b className="text-slate-800">prioritized fix plan</b> with screenshots + copy options —
+                  so the right prospects immediately “get it.”
+                </p>
 
+                {/* Trust chips - improved wrapping */}
+                <div className="mt-4 sm:mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-2">
+                  {[
+                    { icon: <Clock className="h-3 w-3 sm:h-4 sm:w-4" />, text: "Delivered in 8–12 hours" },
+                    { icon: <Check className="h-3 w-3 sm:h-4 sm:w-4" />, text: "No call required" },
+                    { icon: <Check className="h-3 w-3 sm:h-4 sm:w-4" />, text: "Actionable priority list" },
+                  ].map((c, i) => (
+                    <div
+                      key={i}
+                      className="inline-flex items-center gap-1.5 sm:gap-2 rounded-full border border-slate-200 bg-white/70 px-2.5 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur whitespace-nowrap"
+                    >
+                      <span className="text-blue-600">{c.icon}</span>
+                      <span>{c.text}</span>
+                    </div>
+                  ))}
+                </div>
 
+                {/* CTAs - improved stacking */}
+                <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+                  <button
+                    onClick={handleContactClick}
+                    className="group relative px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-white font-semibold text-base sm:text-lg shadow-xl hover:shadow-2xl transition-all active:scale-[0.98] bg-gradient-to-r from-blue-600 to-indigo-600 w-full sm:w-auto"
+                    aria-label="Get your free conversion audit"
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-3">
+                      Get My Free Audit (Screenshots + Fix List)
+                      <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5 transition-transform duration-200 group-hover:translate-x-1" />
+                    </span>
+                  </button>
 
-        {/* Pain Points Section */}
+                  <button
+                    onClick={handleProcessButtonClick}
+                    className="group px-6 sm:px-8 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/80 backdrop-blur border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto"
+                    aria-label="See the process"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="inline-flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg bg-slate-900/5">
+                        <Clock className="h-3 w-3 sm:h-4 sm:w-4 transition-transform duration-300 group-hover:rotate-180" />
+                      </span>
+                      See the 2–3 Day Process
+                    </span>
+                  </button>
+                </div>
+
+                {/* Reassurance */}
+                <p className="mt-3 sm:mt-4 text-xs sm:text-sm text-slate-500">
+                  <span className="font-semibold text-slate-700">No sales call trap.</span> You’ll receive the audit by email
+                  first.
+                </p>
+              </div>
+
+              {/* RIGHT: Visual proof card - improved scaling */}
+              <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full">
+                <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white/70 backdrop-blur shadow-xl overflow-hidden hover:shadow-2xl transition-shadow duration-300">
+                  {/* Top bar */}
+                  <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
+                    <div className="flex items-center gap-1.5 sm:gap-2">
+                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-red-400/80" />
+                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-amber-400/80" />
+                      <div className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-emerald-400/80" />
+                    </div>
+                    <div className="text-xs font-semibold text-slate-500">Audit preview</div>
+                  </div>
+
+                  <div className="p-4 sm:p-6">
+                    <div className="flex items-start gap-2 sm:gap-3">
+                      <div className="mt-0.5 inline-flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl sm:rounded-2xl bg-blue-600/10 text-blue-700 flex-shrink-0">
+                        <BarChart3 className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-tight">
+                          “Here’s why people bounce — and what to fix first”
+                        </h3>
+                        <p className="mt-1 text-xs sm:text-sm text-slate-600">
+                          You’ll get annotated screenshots + rewritten headline options + a priority order.
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Fake “annotated screenshot” skeleton - improved responsive */}
+                    <div className="mt-4 sm:mt-5 rounded-xl sm:rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-3 sm:p-4">
+                      <div className="flex items-center justify-between">
+                        <div className="h-2.5 sm:h-3 w-32 sm:w-40 rounded bg-slate-200" />
+                        <div className="h-6 sm:h-7 w-20 sm:w-24 rounded-lg bg-blue-600/15 border border-blue-600/20" />
+                      </div>
+
+                      <div className="mt-3 sm:mt-4 space-y-2 sm:space-y-3">
+                        <div className="h-3 sm:h-4 w-full sm:w-[85%] rounded bg-slate-200" />
+                        <div className="h-3 sm:h-4 w-4/5 sm:w-[70%] rounded bg-slate-200" />
+                        
+                        {/* Preview image with annotations - improved positioning */}
+                        <div className="h-16 sm:h-20 w-full rounded-lg sm:rounded-xl bg-slate-100 border border-slate-200 relative overflow-hidden">
+                          <div className="absolute left-1 sm:left-4 top-1 sm:top-4 inline-flex items-center gap-1 sm:gap-2 rounded-full bg-white/90 border border-slate-200 px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-slate-700 shadow-sm">
+                            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-red-500" />
+                            Message mismatch
+                          </div>
+                          <div className="absolute right-1 sm:right-4 bottom-1 sm:bottom-4 inline-flex items-center gap-1 sm:gap-2 rounded-full bg-white/90 border border-slate-200 px-1.5 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-semibold text-slate-700 shadow-sm">
+                            <span className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-amber-500" />
+                            CTA friction
+                          </div>
+                        </div>
+
+                        {/* Fix boxes - better grid */}
+                        <div className="grid grid-cols-3 gap-1 sm:gap-2">
+                          {[
+                            { label: "Fix #1", text: "Headline" },
+                            { label: "Fix #2", text: "Proof" },
+                            { label: "Fix #3", text: "CTA" }
+                          ].map((fix, i) => (
+                            <div key={i} className="rounded-lg sm:rounded-xl border border-slate-200 bg-white p-1.5 sm:p-3">
+                              <div className="text-[10px] sm:text-xs font-semibold text-slate-500">{fix.label}</div>
+                              <div className="mt-0.5 sm:mt-1 text-xs sm:text-sm font-bold text-slate-900">{fix.text}</div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Micro trust line */}
+                    <div className="mt-4 sm:mt-5 flex items-center justify-between rounded-xl sm:rounded-2xl border border-slate-200 bg-white px-3 sm:px-4 py-2 sm:py-3">
+                      <div className="text-xs sm:text-sm font-semibold text-slate-800">Free 5-point audit</div>
+                      <div className="text-[10px] sm:text-xs font-semibold text-slate-500">Email delivery • No meeting</div>
+                    </div>
+                  </div>
+                </div>
+
+                
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Pain Points Section - improved spacing */}
         <section
           id="approach"
-          className="py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50"
+          className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
         >
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-16 animate-fade-in-up">
-              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
                 Your Website Should{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 to-orange-500">
                   Sell While You Sleep
                 </span>
               </h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
                 These are the silent conversion killers that make qualified prospects bounce — even when they want what you offer.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {[
                 {
                   icon: Layout,
@@ -520,17 +613,17 @@ export default function Home() {
               ].map((item, idx) => (
                 <div
                   key={idx}
-                  className="bg-white p-8 rounded-2xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out shadow-lg hover:shadow-xl hover:-translate-y-2 transform cursor-default group animate-fade-in-up"
+                  className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out shadow-lg hover:shadow-xl hover:-translate-y-2 transform cursor-default group animate-fade-in-up"
                   style={{ animationDelay: `${idx * 100}ms` }}
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-3">
-                    <item.icon className="w-7 h-7 text-blue-600 transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center mb-3 sm:mb-4 transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-3">
+                    <item.icon className="w-6 h-6 sm:w-7 sm:h-7 text-blue-600 transition-transform duration-500 group-hover:scale-110" />
                   </div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-3 transition-colors duration-300 group-hover:text-blue-700">
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
                     {item.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">{item.desc}</p>
-                  <div className="mt-6 flex items-center gap-2">
+                  <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{item.desc}</p>
+                  <div className="mt-4 sm:mt-6 flex items-center gap-2">
                     <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-transform duration-1000 ease-out -translate-x-full group-hover:translate-x-0"></div>
                     </div>
@@ -541,17 +634,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Promise Section */}
-        <section className="py-20 px-4 sm:px-6">
-          <div className="container mx-auto max-w-5xl">
-            <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-3xl p-8 sm:p-12 border border-blue-100 shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out">
-              <div className="max-w-3xl">
-                <div className="inline-flex items-center gap-3 bg-white px-4 py-2 rounded-full text-sm font-medium text-blue-700 mb-6 border border-blue-200 cursor-default transition-all duration-300 hover:scale-105">
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+        {/* Promise Section - improved */}
+        <section className="py-16 sm:py-20 px-4 sm:px-6">
+          <div className="container mx-auto max-w-7xl">
+            <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 border border-blue-100 shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out">
+              <div className="max-w-4xl mx-auto">
+                <div className="inline-flex items-center gap-2 sm:gap-3 bg-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium text-blue-700 mb-4 sm:mb-6 border border-blue-200 cursor-default transition-all duration-300 hover:scale-105">
+                  <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
                   <span>What You Get</span>
                 </div>
 
-                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
                   A Website Built to{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                     Convert High-Intent Visitors
@@ -559,13 +652,13 @@ export default function Home() {
                   Into Calls
                 </h2>
 
-                <p className="text-lg sm:text-xl text-slate-700 mb-10 leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-slate-700 mb-8 sm:mb-10 leading-relaxed">
                   We rebuild your front-end around one goal: <span className="font-semibold">booked calls</span>.
                   Clear messaging, premium positioning, and a frictionless path to action — so the right clients
                   understand your value and move forward confidently.
                 </p>
 
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                   {[
                     {
                       title: "Core Pages (Conversion First)",
@@ -590,19 +683,19 @@ export default function Home() {
                   ].map((column, colIdx) => (
                     <div
                       key={colIdx}
-                      className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out cursor-default hover:translate-y-1"
+                      className="bg-white/80 backdrop-blur-sm p-5 sm:p-6 rounded-xl border border-slate-200 hover:border-blue-300 transition-all duration-500 ease-out cursor-default hover:translate-y-1"
                     >
-                      <h4 className="font-bold text-slate-900 mb-4 text-lg flex items-center gap-2">
-                        <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full transition-transform duration-300 group-hover:scale-150"></div>
+                      <h4 className="font-bold text-slate-900 mb-3 sm:mb-4 text-base sm:text-lg flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                         {column.title}
                       </h4>
-                      <ul className="space-y-3">
+                      <ul className="space-y-2 sm:space-y-3">
                         {column.items.map((item, idx) => (
-                          <li key={idx} className="flex items-center gap-3 group/item">
-                            <div className="w-5 h-5 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center transition-all duration-300 group-hover/item:scale-110 group-hover/item:bg-blue-200">
-                              <Check className="w-3 h-3 text-blue-600 transition-transform group-hover/item:scale-110" />
+                          <li key={idx} className="flex items-center gap-2 sm:gap-3 group/item">
+                            <div className="w-4 h-4 sm:w-5 sm:h-5 bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full flex items-center justify-center flex-shrink-0">
+                              <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-600" />
                             </div>
-                            <span className="text-slate-700 transition-colors duration-300 group-hover/item:text-slate-900">
+                            <span className="text-xs sm:text-sm text-slate-700">
                               {item}
                             </span>
                           </li>
@@ -616,36 +709,36 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Scope Section */}
+        {/* Scope Section - improved */}
         <section
           id="scope"
-          className="py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50"
+          className="py-16 sm:py-20 px-4 sm:px-6 bg-gradient-to-b from-white to-slate-50 scroll-mt-20"
         >
-          <div className="container mx-auto max-w-5xl">
-            <div className="text-center mb-16 animate-fade-in-up">
-              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
                 Best Fit for Coaches Who Want{" "}
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                   More Calls
                 </span>{" "}
                 (Not More Busywork)
               </h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
                 We focus on conversion-first front-end redesign — not “everything for everyone.”
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-8">
+            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
               {/* Left Column */}
               <div className="animate-fade-in-left">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-8 rounded-2xl border-2 border-green-200 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-500 hover:rotate-12">
-                      <Check className="w-6 h-6 text-white transition-transform duration-500 hover:scale-110" />
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-green-200 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                      <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     Perfect If You’re…
                   </h3>
-                  <ul className="space-y-4">
+                  <ul className="space-y-3 sm:space-y-4">
                     {[
                       "Selling a premium service (coaching, consulting, done-for-you)",
                       "Getting traffic/referrals but booking is inconsistent",
@@ -653,11 +746,11 @@ export default function Home() {
                       "Tired of attracting low-quality leads and price shoppers",
                       "Looking for a mobile-first site that loads fast and drives action",
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 group cursor-default">
-                        <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center mt-1 transition-all duration-300 group-hover:scale-110 group-hover:bg-green-200">
-                          <Check className="w-4 h-4 text-green-600 transition-transform group-hover:scale-110" />
+                      <li key={idx} className="flex items-start gap-2 sm:gap-3 group cursor-default">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-green-100 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <Check className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
                         </div>
-                        <span className="text-slate-700 flex-1 transition-colors duration-300 group-hover:text-slate-900">
+                        <span className="text-sm sm:text-base text-slate-700 flex-1">
                           {item}
                         </span>
                       </li>
@@ -668,14 +761,14 @@ export default function Home() {
 
               {/* Right Column */}
               <div className="animate-fade-in-right">
-                <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-8 rounded-2xl border-2 border-slate-300 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
-                  <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg transition-transform duration-500 hover:rotate-12">
-                      <Shield className="w-6 h-6 text-white transition-transform duration-500 hover:scale-110" />
+                <div className="bg-gradient-to-br from-slate-50 to-slate-100 p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-slate-300 shadow-xl h-full transition-all duration-500 ease-out hover:shadow-2xl hover:-translate-y-1">
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6 flex items-center gap-2 sm:gap-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-slate-600 to-slate-700 rounded-xl flex items-center justify-center shadow-lg flex-shrink-0">
+                      <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                     </div>
                     Not a Fit If You Need…
                   </h3>
-                  <ul className="space-y-4">
+                  <ul className="space-y-3 sm:space-y-4">
                     {[
                       "Custom backends or complex databases",
                       "Membership portals or LMS platforms",
@@ -683,18 +776,18 @@ export default function Home() {
                       "E-commerce with complex inventory management",
                       "Community or social network features",
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 group cursor-default">
-                        <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center mt-1 transition-all duration-300 group-hover:scale-110 group-hover:bg-slate-300">
-                          <X className="w-4 h-4 text-slate-500 transition-transform duration-500 group-hover:rotate-180" />
+                      <li key={idx} className="flex items-start gap-2 sm:gap-3 group cursor-default">
+                        <div className="w-5 h-5 sm:w-6 sm:h-6 bg-slate-200 rounded-full flex items-center justify-center mt-0.5 flex-shrink-0">
+                          <X className="w-3 h-3 sm:w-4 sm:h-4 text-slate-500" />
                         </div>
-                        <span className="text-slate-500 flex-1 transition-colors duration-300 group-hover:text-slate-700">
+                        <span className="text-sm sm:text-base text-slate-500 flex-1">
                           {item}
                         </span>
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-8 p-4 bg-white/50 rounded-lg border border-slate-200 transition-all duration-300 hover:bg-white/80">
-                    <p className="text-sm text-slate-600 italic">
+                  <div className="mt-6 sm:mt-8 p-3 sm:p-4 bg-white/50 rounded-lg border border-slate-200">
+                    <p className="text-xs sm:text-sm text-slate-600 italic">
                       “We don’t try to do everything. We specialize in conversion-focused front-end redesigns
                       that turn your current traffic into booked calls — fast.”
                     </p>
@@ -705,17 +798,17 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Process Section */}
-        <section id="process" className="py-20 px-4 sm:px-6 scroll-mt-20">
-          <div className="container mx-auto max-w-6xl">
-            <div className="text-center mb-16 animate-fade-in-up">
-              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+        {/* Process Section - improved grid */}
+        <section id="process" className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
+          <div className="container mx-auto max-w-7xl">
+            <div className="text-center mb-12 sm:mb-16 animate-fade-in-up">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-slate-900 mb-3 sm:mb-4">
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
                   Simple Process.
                 </span>{" "}
                 Serious Results.
               </h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+              <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto px-4">
                 Built for busy operators: clear steps, fast execution, measurable outcomes.
               </p>
             </div>
@@ -723,7 +816,7 @@ export default function Home() {
             <div className="relative">
               <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-200 via-indigo-200 to-blue-200 transform -translate-y-1/2"></div>
 
-              <div className="grid lg:grid-cols-5 gap-6 lg:gap-8">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
                 {[
                   {
                     step: "01",
@@ -756,17 +849,17 @@ export default function Home() {
                     className="relative z-10 animate-fade-in-up"
                     style={{ animationDelay: `${idx * 150}ms` }}
                   >
-                    <div className="bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-3 transform cursor-default group">
+                    <div className="bg-white p-6 sm:p-8 rounded-xl sm:rounded-2xl border-2 border-blue-100 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-3 transform cursor-default group h-full">
                       <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-12">
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg shadow-lg transition-all duration-500 ease-out group-hover:scale-110 group-hover:rotate-12">
                           {item.step}
                         </div>
                       </div>
-                      <div className="pt-6 text-center">
-                        <h3 className="text-xl font-bold text-slate-900 mb-3 transition-colors duration-300 group-hover:text-blue-700">
+                      <div className="pt-6 sm:pt-8 text-center">
+                        <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-900 mb-2 sm:mb-3 transition-colors duration-300 group-hover:text-blue-700">
                           {item.title}
                         </h3>
-                        <p className="text-slate-600 transition-colors duration-300 group-hover:text-slate-800">
+                        <p className="text-xs sm:text-sm text-slate-600 transition-colors duration-300 group-hover:text-slate-800">
                           {item.desc}
                         </p>
                       </div>
@@ -776,61 +869,59 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-16 text-center animate-fade-in-up">
-              <p className="text-lg text-slate-600 mb-8">
+            <div className="mt-12 sm:mt-16 text-center animate-fade-in-up">
+              <p className="text-base sm:text-lg text-slate-600 mb-6 sm:mb-8 px-4">
                 Want to know why your site isn’t booking calls? I’ll tell you. Free.
               </p>
               <button
                 onClick={handleContactClick}
-                className="group px-10 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 mx-auto focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-xl"
                 aria-label="Get free conversion audit"
               >
                 <span>Get My Free 5-Point Audit</span>
-                <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1 duration-300" />
               </button>
             </div>
           </div>
         </section>
 
-        {/* Final CTA */}
-        <section className="py-20 px-4 sm:px-6 scroll-mt-20">
-          <div className="container mx-auto max-w-4xl">
-            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl p-8 sm:p-12 text-center text-white shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out overflow-hidden relative">
+        {/* Final CTA - improved */}
+        <section className="py-16 sm:py-20 px-4 sm:px-6 scroll-mt-20">
+          <div className="container mx-auto max-w-5xl">
+            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12 text-center text-white shadow-2xl animate-fade-in-up hover:shadow-3xl transition-shadow duration-500 ease-out overflow-hidden relative">
               <div className="absolute top-1/4 -left-20 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl animate-pulse-slow"></div>
               <div className="absolute bottom-1/4 -right-20 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl animate-pulse-slower"></div>
 
-              <div className="relative z-10">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+              <div className="relative z-10 max-w-3xl mx-auto">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6">
                   Get a Free Audit That Shows{" "}
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-300">
                     Exactly What to Fix
                   </span>
                 </h2>
 
-                <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-slate-300 mb-6 sm:mb-8 lg:mb-10 leading-relaxed">
                   I’ll review your site and send back a short, actionable breakdown: what’s hurting conversions,
                   what to change first, and how to increase booked calls — without buying more traffic.
                 </p>
 
-                <div className="max-w-md mx-auto mb-8 bg-slate-800/50 rounded-xl p-6 border border-slate-700 transition-all duration-300 hover:bg-slate-800/70">
-                  <h4 className="font-semibold text-white mb-4 flex items-center gap-2">
-                    <Shield className="w-5 h-5 text-blue-400 animate-pulse" />
+                <div className="max-w-md mx-auto mb-6 sm:mb-8 bg-slate-800/50 rounded-xl p-4 sm:p-6 border border-slate-700">
+                  <h4 className="font-semibold text-white mb-3 sm:mb-4 flex items-center gap-2 text-sm sm:text-base">
+                    <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                     What You’ll Receive:
                   </h4>
-                  <ul className="space-y-3 text-left">
+                  <ul className="space-y-2 sm:space-y-3 text-left">
                     {[
                       "Above-the-fold clarity + offer positioning",
                       "Trust + authority gaps (proof placement)",
                       "CTA + booking flow friction (mobile + desktop)",
                       "3 priority fixes you can implement immediately",
                     ].map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-slate-300 group">
-                        <div className="w-5 h-5 bg-blue-500/20 rounded-full flex items-center justify-center transition-all duration-300 group-hover:bg-blue-500/40">
-                          <Check className="w-3 h-3 text-blue-400 transition-transform group-hover:scale-110" />
+                      <li key={idx} className="flex items-center gap-2 sm:gap-3 text-slate-300 group">
+                        <div className="w-4 h-4 sm:w-5 sm:h-5 bg-blue-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                          <Check className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-blue-400" />
                         </div>
-                        <span className="transition-colors duration-300 group-hover:text-white">
-                          {item}
-                        </span>
+                        <span className="text-xs sm:text-sm">{item}</span>
                       </li>
                     ))}
                   </ul>
@@ -838,15 +929,15 @@ export default function Home() {
 
                 <button
                   onClick={handleContactClick}
-                  className="group px-10 py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 ease-out text-lg shadow-2xl hover:shadow-3xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-3 mx-auto animate-pulse-subtle focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="group px-8 sm:px-10 py-3 sm:py-4 bg-gradient-to-r from-blue-500 via-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-2xl hover:scale-105 active:scale-95 transform cursor-pointer flex items-center gap-2 sm:gap-3 mx-auto transition-all duration-300 text-base sm:text-lg shadow-2xl"
                   aria-label="Request your free conversion audit"
                 >
                   <span>Send Me the Free Audit</span>
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 group-hover:translate-x-1" />
                 </button>
 
-                <p className="mt-8 text-slate-400 text-sm flex items-center justify-center gap-2">
-                  <Shield className="w-4 h-4" />
+                <p className="mt-4 sm:mt-6 text-slate-400 text-xs sm:text-sm flex items-center justify-center gap-1.5 sm:gap-2">
+                  <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
                   No pressure • No spam • Just a clear plan to get more calls
                 </p>
               </div>
@@ -854,41 +945,41 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="py-12 px-4 sm:px-6 border-t border-slate-200 bg-white">
-          <div className="container mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+        {/* Footer - improved */}
+        <footer className="py-10 sm:py-12 px-4 sm:px-6 border-t border-slate-200 bg-white">
+          <div className="container mx-auto max-w-7xl">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6 sm:gap-8">
               <div className="text-center md:text-left">
                 <button
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                  className="flex items-center gap-3 mb-3 group cursor-pointer transition-transform duration-300 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded-lg"
+                  className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3 group cursor-pointer transition-transform duration-300 hover:scale-105 mx-auto md:mx-0"
                   aria-label="Go to top"
                 >
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-12">
-                    <TrendingUp className="w-6 h-6 text-white transition-transform duration-500 group-hover:scale-110" />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
+                    <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                   </div>
                   <div>
-                    <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                    <div className="text-lg sm:text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                       ConversionFlow
                     </div>
-                    <div className="text-xs text-slate-500">Website Redesign</div>
+                    <div className="text-[10px] sm:text-xs text-slate-500">Website Redesign</div>
                   </div>
                 </button>
-                <p className="text-slate-600 max-w-md">
+                <p className="text-xs sm:text-sm text-slate-600 max-w-md">
                   Conversion-first front-end redesign for coaches &amp; consultants — turning existing traffic into booked calls with clarity, trust, and flow.
                 </p>
               </div>
 
-              <div className="flex flex-col items-center md:items-end gap-4">
-                <div className="text-sm text-slate-500 text-center md:text-right">
+              <div className="flex flex-col items-center md:items-end gap-3 sm:gap-4">
+                <div className="text-xs sm:text-sm text-slate-500 text-center md:text-right">
                   <p>© {new Date().getFullYear()} ConversionFlow • Global Service</p>
                   <p className="mt-1">No Backend Projects • Conversion-Focused Only</p>
                 </div>
-                <div className="flex gap-4">
+                <div className="flex gap-2 sm:gap-3">
                   {["Coaches", "Consultants", "Conversion-First"].map((tag, idx) => (
                     <span
                       key={idx}
-                      className="px-3 py-1 bg-slate-100 text-slate-700 text-sm rounded-full font-medium transition-all duration-300 hover:bg-slate-200 hover:scale-105"
+                      className="px-2 sm:px-3 py-1 bg-slate-100 text-slate-700 text-[10px] sm:text-xs rounded-full font-medium"
                     >
                       {tag}
                     </span>
@@ -898,6 +989,149 @@ export default function Home() {
             </div>
           </div>
         </footer>
+
+        {/* Contact Form Modal - improved */}
+        {showContactForm && (
+          <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
+            <div
+              ref={contactFormRef}
+              className="relative w-full max-w-lg my-auto sm:my-0 bg-white rounded-xl sm:rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
+            >
+              <button
+                onClick={() => setShowContactForm(false)}
+                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 z-10"
+                aria-label="Close form"
+              >
+                <X className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
+              </button>
+
+              <div className="relative p-5 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh]">
+                {submitSuccess ? (
+                  <div className="text-center py-6 sm:py-8">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
+                    </div>
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">
+                      Request Received!
+                    </h3>
+                    <p className="text-sm sm:text-base text-gray-700 mb-4">
+                      Got it — I’ve received your request. You’ll get your audit within{" "}
+                      <span className="font-semibold">8–12 hours</span>.
+                    </p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="text-center mb-5 sm:mb-6">
+                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                        <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+                      </div>
+                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">
+                        Free 5-Point Conversion Audit
+                      </h3>
+                      <p className="text-xs sm:text-sm text-gray-700">
+                        Share your site + goals. I’ll send a clear breakdown within{" "}
+                        <span className="font-semibold">8–12 hours</span>.
+                      </p>
+                    </div>
+
+                    {submitError && (
+                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                        <p className="text-xs sm:text-sm text-red-800 flex items-center gap-2">
+                          <Shield className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                          {submitError}
+                        </p>
+                      </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
+                          <User className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                          First name *
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          placeholder="John"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
+                          <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                          Best email *
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          placeholder="john@yourdomain.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
+                          <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                          Your website *
+                        </label>
+                        <input
+                          type="text"
+                          name="website"
+                          value={formData.website}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                          placeholder="https://yourwebsite.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
+                          <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                          What are you trying to achieve? *
+                        </label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleInputChange}
+                          rows={3}
+                          required
+                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm resize-none"
+                          placeholder="Getting traffic but no booked calls..."
+                        />
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            <span>Sending…</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Get My Audit</span>
+                            <ArrowRight className="w-4 h-4" />
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Global Styles */}
         <style jsx global>{`
@@ -935,43 +1169,13 @@ export default function Home() {
           }
 
           @keyframes pulse-slow {
-            0%,
-            100% {
-              opacity: 0.3;
-            }
-            50% {
-              opacity: 0.5;
-            }
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.5; }
           }
 
           @keyframes pulse-slower {
-            0%,
-            100% {
-              opacity: 0.2;
-            }
-            50% {
-              opacity: 0.4;
-            }
-          }
-
-          @keyframes pulse-subtle {
-            0%,
-            100% {
-              transform: scale(1);
-            }
-            50% {
-              transform: scale(1.02);
-            }
-          }
-
-          @keyframes gradient-x {
-            0%,
-            100% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.4; }
           }
 
           .animate-fade-in-up {
@@ -994,29 +1198,14 @@ export default function Home() {
             animation: pulse-slower 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
           }
 
-          .animate-pulse-subtle {
-            animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-          }
-
-          .animate-gradient-x {
-            background-size: 200% 200%;
-            animation: gradient-x 3s ease infinite;
-          }
-
-          .animation-delay-100 {
-            animation-delay: 100ms;
-          }
-
-          .animation-delay-200 {
-            animation-delay: 200ms;
-          }
-
-          .animation-delay-300 {
-            animation-delay: 300ms;
-          }
-
-          .animation-delay-400 {
-            animation-delay: 400ms;
+          /* Custom breakpoint for extra small devices */
+          @media (min-width: 480px) {
+            .xs\\:inline {
+              display: inline;
+            }
+            .xs\\:block {
+              display: block;
+            }
           }
 
           html {
@@ -1041,227 +1230,8 @@ export default function Home() {
             background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
             border-radius: 4px;
           }
-
-          ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(to bottom, #2563eb, #7c3aed);
-          }
         `}</style>
       </div>
-
-      {/* Contact Form Modal */}
-      {showContactForm && (
-        <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-          <div
-            ref={contactFormRef}
-            className="relative w-full max-w-lg my-auto sm:my-0 bg-white rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
-          >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-blue-100/30 to-indigo-100/30 rounded-full -translate-y-16 translate-x-16"></div>
-            <div className="absolute bottom-0 left-0 w-40 h-40 bg-gradient-to-br from-indigo-100/20 to-blue-100/20 rounded-full -translate-x-20 translate-y-20"></div>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowContactForm(false);
-              }}
-              className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2.5 sm:p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 z-10"
-              aria-label="Close form"
-            >
-              <X className="w-5 h-5 text-slate-700" />
-            </button>
-
-            <div
-              className="relative p-4 sm:p-6 md:p-8 overflow-y-auto"
-              style={{ maxHeight: "calc(90vh - 2rem)" }}
-            >
-              {submitSuccess ? (
-                <div className="text-center py-6 sm:py-8">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                    <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
-                  </div>
-                  <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
-                    Request Received!
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6">
-                    Got it — I’ve received your request. You’ll get your audit within{" "}
-                    <span className="font-semibold">8–12 hours</span> with clear, prioritized fixes to help you book more calls.
-                  </p>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-green-50 text-green-800 rounded-full text-xs sm:text-sm">
-                    <Shield className="w-3 h-3 sm:w-4 sm:h-4" />
-                    No pressure • No spam • Just a clear plan
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <div className="text-center mb-6 sm:mb-8">
-                    <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 sm:mb-4 shadow-lg">
-                      <MessageSquare className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                    </div>
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-                      Free 5-Point Conversion Audit
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-700">
-                      Share your site + goals. I’ll send a clear breakdown within{" "}
-                      <span className="font-semibold">8–12 hours</span>.
-                    </p>
-                  </div>
-
-                  {submitError && (
-                    <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                      <p className="text-sm text-red-800 flex items-center gap-2">
-                        <Shield className="w-4 h-4 flex-shrink-0" />
-                        {submitError}
-                      </p>
-                    </div>
-                  )}
-
-                  <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-                    <div className="space-y-3 sm:space-y-4">
-                      <div>
-                        <label
-                          htmlFor="name"
-                          className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2"
-                        >
-                          <User className="w-4 h-4 text-blue-600" />
-                          First name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-                          placeholder="John"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="email"
-                          className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2"
-                        >
-                          <Mail className="w-4 h-4 text-blue-600" />
-                          Best email *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-                          placeholder="john@yourdomain.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="website"
-                          className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2"
-                        >
-                          <Globe className="w-4 h-4 text-blue-600" />
-                          Your website *
-                        </label>
-                        <input
-                          type="text"
-                          id="website"
-                          name="website"
-                          value={formData.website}
-                          onChange={handleInputChange}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
-                          placeholder="https://yourwebsite.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label
-                          htmlFor="message"
-                          className="block text-sm font-medium text-gray-800 mb-1.5 flex items-center gap-2"
-                        >
-                          <MessageCircle className="w-4 h-4 text-blue-600" />
-                          What are you trying to achieve? *
-                        </label>
-                        <textarea
-                          id="message"
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={2}
-                          required
-                          disabled={isSubmitting}
-                          className="w-full px-3 py-2.5 sm:px-4 sm:py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 outline-none placeholder:text-gray-500 text-gray-900 text-base disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed resize-none"
-                          placeholder='Example: “Getting traffic but no booked calls. I want more qualified inquiries for my $2k+ offer.”'
-                        />
-                      </div>
-                    </div>
-
-                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 sm:p-4">
-                      <div className="flex items-start gap-2 sm:gap-3">
-                        <Shield className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                        <div className="text-sm text-blue-800">
-                          <p className="font-medium mb-1">What you’ll receive:</p>
-                          <ul className="space-y-1">
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
-                              <span className="text-blue-800">
-                                A 5-point audit (clarity, trust, CTA, flow, mobile)
-                              </span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
-                              <span className="text-blue-800">
-                                A prioritized fix list (do this first)
-                              </span>
-                            </li>
-                            <li className="flex items-center gap-2">
-                              <Check className="w-3 h-3 text-blue-600 flex-shrink-0" />
-                              <span className="text-blue-800">
-                                Optional next step if you want help implementing
-                              </span>
-                            </li>
-                          </ul>
-
-                          <p className="mt-2 text-blue-800">
-                            <span className="font-semibold">No call required.</span> You’ll get the audit by email first.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:opacity-90 active:opacity-80 transition-all duration-300 ease-out shadow-lg hover:shadow-xl active:scale-95 transform cursor-pointer flex items-center justify-center gap-2 sm:gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed text-base"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                          <span>Sending…</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Get My Audit</span>
-                          <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
-                        </>
-                      )}
-                    </button>
-
-                    <p className="text-center text-xs text-gray-600">
-                      By submitting, you agree to our privacy policy. Your data is processed securely by Formspree.
-                    </p>
-                  </form>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
