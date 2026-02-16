@@ -378,34 +378,37 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* Hero Section - MOBILE-FIRST, KEYWORD-MIRRORED */}
+        {/* Hero Section - SPEED-OPTIMIZED (mobile) but looks ~the same */}
 <section className="relative overflow-hidden pt-24 sm:pt-32 pb-14 sm:pb-20 px-4 sm:px-6">
-  {/* Background (lighter on mobile for speed/clarity) */}
+  {/* Background (speed: reduce blur on mobile, keep on >=sm) */}
   <div className="absolute inset-0 -z-10">
-    <div className="absolute -top-24 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/50 to-indigo-200/35 blur-3xl" />
-    <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/35 to-sky-200/25 blur-3xl hidden sm:block" />
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.08),transparent_55%)]" />
-    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.94),rgba(255,255,255,0.985))]" />
+    {/* ⛳ Biggest win: blur-3xl is expensive on mobile → use blur-xl + lower opacity, keep blur-3xl on sm+ */}
+    <div className="absolute -top-24 left-1/2 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-gradient-to-br from-blue-200/40 to-indigo-200/25 blur-xl sm:blur-3xl opacity-70" />
+    <div className="absolute bottom-[-160px] right-[-120px] h-[520px] w-[520px] rounded-full bg-gradient-to-br from-indigo-200/30 to-sky-200/20 blur-2xl sm:blur-3xl hidden sm:block" />
+
+    {/* keep subtle overlays */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.07),transparent_55%)]" />
+    <div className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(255,255,255,0.95),rgba(255,255,255,0.985))]" />
   </div>
 
   <div className="container mx-auto max-w-7xl relative">
     <div className="grid items-start gap-8 lg:gap-12 lg:grid-cols-2">
       {/* LEFT */}
       <div className="text-center lg:text-left">
-        {/* Badge */}
-        <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm backdrop-blur">
+        {/* Badge (speed: remove backdrop-blur on mobile) */}
+        <div className="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 rounded-full border border-blue-200/60 bg-white/80 sm:bg-white/70 px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold text-blue-700 shadow-sm sm:backdrop-blur">
           <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
-          <span>Coach & Consultant Website Design</span>
+          <span>Coach &amp; Consultant Website Design</span>
           <span className="mx-1 h-3 w-px bg-slate-200 hidden sm:inline" />
           <span className="font-medium text-slate-600">Built to get booked calls</span>
         </div>
 
-        {/* H1 — mirrors search intent FIRST */}
+        {/* H1 (speed: gradient text only on sm+, solid color on mobile to paint faster) */}
         <h1 className="mt-4 sm:mt-6 text-3xl xs:text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 leading-tight">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
+          <span className="text-blue-600 sm:text-transparent sm:bg-clip-text sm:bg-gradient-to-r sm:from-blue-600 sm:to-indigo-600">
             Website Design
           </span>{" "}
-          for Coaches & Consultants
+          for Coaches &amp; Consultants
           <span className="block mt-2 text-slate-900">
             That Turns Visitors Into{" "}
             <span className="underline decoration-blue-300/70 decoration-4 underline-offset-4">
@@ -414,13 +417,11 @@ export default function Home() {
           </span>
         </h1>
 
-        {/* Subheading — 1 punchy sentence on mobile */}
         <p className="mt-4 text-base sm:text-lg lg:text-xl leading-relaxed text-slate-600 max-w-2xl mx-auto lg:mx-0">
           Redesign your site so people instantly understand your offer, trust you fast, and take the next step —
           <b className="text-slate-800"> especially on mobile</b>.
         </p>
 
-        {/* CTA FIRST (shorter label) */}
         <div className="mt-6 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
           <button
             onClick={handleContactClick}
@@ -433,9 +434,10 @@ export default function Home() {
             </span>
           </button>
 
+          {/* speed: remove backdrop-blur on mobile */}
           <button
             onClick={handleProcessButtonClick}
-            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white/85 backdrop-blur border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto"
+            className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white border border-slate-200 text-slate-800 font-semibold text-base sm:text-lg shadow-sm hover:shadow-md hover:border-blue-300 transition-all active:scale-[0.98] w-full sm:w-auto sm:bg-white/85 sm:backdrop-blur"
             aria-label="See the process"
           >
             <span className="flex items-center justify-center gap-2">
@@ -447,13 +449,12 @@ export default function Home() {
           </button>
         </div>
 
-        {/* Reassurance */}
         <p className="mt-3 text-xs sm:text-sm text-slate-500">
           <span className="font-semibold text-slate-700">No sales call trap.</span> Audit delivered by email within{" "}
           <span className="font-semibold">8–12 hours</span>.
         </p>
 
-        {/* Trust chips AFTER CTA (don’t push CTA down) */}
+        {/* Trust chips (speed: remove backdrop-blur on mobile) */}
         <div className="mt-4 flex flex-wrap items-center justify-center lg:justify-start gap-2">
           {[
             { icon: <Clock className="h-4 w-4" />, text: "8–12 hour delivery" },
@@ -462,7 +463,7 @@ export default function Home() {
           ].map((c, i) => (
             <div
               key={i}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm backdrop-blur"
+              className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white/80 sm:bg-white/70 px-3 py-1.5 text-xs sm:text-sm font-medium text-slate-700 shadow-sm sm:backdrop-blur"
             >
               <span className="text-blue-600">{c.icon}</span>
               <span>{c.text}</span>
@@ -471,9 +472,10 @@ export default function Home() {
         </div>
       </div>
 
-      {/* RIGHT — PROOF CARD (show earlier on mobile) */}
+      {/* RIGHT — PROOF CARD */}
       <div className="lg:justify-self-end max-w-md mx-auto lg:max-w-none w-full order-2 lg:order-none">
-        <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white/75 backdrop-blur shadow-xl overflow-hidden">
+        {/* speed: remove backdrop-blur on mobile; keep on sm+ */}
+        <div className="relative rounded-2xl sm:rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden sm:bg-white/75 sm:backdrop-blur">
           <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-slate-200/70">
             <div className="flex items-center gap-2">
               <div className="h-2.5 w-2.5 rounded-full bg-red-400/80" />
@@ -534,6 +536,7 @@ export default function Home() {
     </div>
   </div>
 </section>
+
 
 
         {/* Pain Points Section - improved spacing */}
