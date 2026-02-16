@@ -25,36 +25,7 @@ import {
 } from "lucide-react";
 
 /** Mobile sticky CTA (opens your existing contact modal) */
-function MobileStickyCTA({ onClick }: { onClick: () => void }) {
-  return (
-    <div className="md:hidden fixed inset-x-0 bottom-0 z-[60]">
-      {/* soft fade so it feels native */}
-      <div className="pointer-events-none h-10 bg-gradient-to-t from-white via-white/90 to-transparent" />
-      <div className="pointer-events-auto px-3 pb-[calc(env(safe-area-inset-bottom)+12px)]">
-        <div className="mx-auto max-w-md rounded-2xl border border-slate-200 bg-white/90 backdrop-blur shadow-2xl">
-          <div className="flex items-center gap-3 p-3">
-            <div className="flex-1">
-              <div className="text-[11px] font-semibold text-slate-500">
-                Free 5-point audit • 8–12h delivery
-              </div>
-              <div className="text-sm font-bold text-slate-900 leading-tight">
-                Want more booked calls from your current traffic?
-              </div>
-            </div>
-            <button
-              onClick={onClick}
-              className="shrink-0 inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg active:scale-[0.98] transition-transform"
-              aria-label="Open free audit form"
-            >
-              Get Audit
-              <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -1078,8 +1049,7 @@ export default function Home() {
           </>
         )}
 
-        {/* Sticky bottom CTA for mobile */}
-        <MobileStickyCTA onClick={handleContactClick} />
+        
 
         {/* Contact Form Modal */}
         {showContactForm && (
