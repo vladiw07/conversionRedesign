@@ -426,14 +426,7 @@ export default function Home() {
                       />
                     </button>
                   ))}
-                  <button
-                    onClick={handleContactClick}
-                    className="mt-2 p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-xl hover:shadow-xl transition-all duration-300 ease-out shadow-lg cursor-pointer flex items-center justify-center gap-2 group active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    aria-label="Get free conversion audit"
-                  >
-                    Get My Free Audit
-                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1 duration-300" />
-                  </button>
+                  
                 </div>
               </div>
             </div>
