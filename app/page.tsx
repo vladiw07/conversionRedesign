@@ -1083,147 +1083,148 @@ export default function Home() {
         
 
         {/* Contact Form Modal */}
-        {showContactForm && (
-          <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
-            <div
-              ref={contactFormRef}
-              className="relative w-full max-w-lg my-auto sm:my-0 bg-white rounded-xl sm:rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
-            >
-              <button
-                onClick={() => setShowContactForm(false)}
-                className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 z-10"
-                aria-label="Close form"
-              >
-                <X className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
-              </button>
+{showContactForm && (
+  <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in overflow-y-auto">
+    <div
+      ref={contactFormRef}
+      className="modal-form relative w-full max-w-lg my-auto sm:my-0 bg-white rounded-xl sm:rounded-2xl shadow-2xl border border-slate-200 animate-fade-in-up transform overflow-hidden"
+    >
+      <button
+        onClick={() => setShowContactForm(false)}
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 p-2 rounded-lg hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200 z-10"
+        aria-label="Close form"
+      >
+        <X className="w-4 h-4 sm:w-5 sm:h-5 text-slate-700" />
+      </button>
 
-              <div className="relative p-5 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh]">
-                {submitSuccess ? (
-                  <div className="text-center py-6 sm:py-8">
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
-                    </div>
-                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2">
-                      Request Received!
-                    </h3>
-                    <p className="text-sm sm:text-base text-gray-700 mb-4">
-                      Got it — I’ve received your request. You’ll get your audit
-                      within <span className="font-semibold">8–12 hours</span>.
-                    </p>
-                  </div>
+      <div className="relative p-5 sm:p-6 md:p-8 overflow-y-auto max-h-[90vh]">
+        {submitSuccess ? (
+          <div className="text-center py-6 sm:py-8">
+            <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-100 to-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Check className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
+            </div>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 mb-2">
+              Request Received!
+            </h3>
+            <p className="text-sm sm:text-base text-slate-700 mb-4">
+              Got it — I’ve received your request. You’ll get your audit within{" "}
+              <span className="font-semibold">8–12 hours</span>.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="text-center mb-5 sm:mb-6">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
+                <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
+              </div>
+              <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-slate-900 mb-1">
+                Free 5-Point Conversion Audit
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-700">
+                Share your site + goals. I’ll send a clear breakdown within{" "}
+                <span className="font-semibold">8–12 hours</span>.
+              </p>
+            </div>
+
+            {submitError && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-xs sm:text-sm text-red-800 flex items-center gap-2">
+                  <Shield className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
+                  {submitError}
+                </p>
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-1 flex items-center gap-1.5">
+                  <User className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                  First name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full appearance-none px-3 py-2 sm:px-4 sm:py-2.5 bg-white text-slate-900 placeholder:text-slate-400 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm caret-blue-600"
+                  placeholder="John"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-1 flex items-center gap-1.5">
+                  <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                  Best email *
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full appearance-none px-3 py-2 sm:px-4 sm:py-2.5 bg-white text-slate-900 placeholder:text-slate-400 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm caret-blue-600"
+                  placeholder="john@yourdomain.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-1 flex items-center gap-1.5">
+                  <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                  Your website *
+                </label>
+                <input
+                  type="text"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full appearance-none px-3 py-2 sm:px-4 sm:py-2.5 bg-white text-slate-900 placeholder:text-slate-400 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm caret-blue-600"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs sm:text-sm font-medium text-slate-800 mb-1 flex items-center gap-1.5">
+                  <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
+                  What are you trying to achieve? *
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={3}
+                  required
+                  className="w-full appearance-none px-3 py-2 sm:px-4 sm:py-2.5 bg-white text-slate-900 placeholder:text-slate-400 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-none caret-blue-600"
+                  placeholder="Getting traffic but no booked calls..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-70"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    <span>Sending…</span>
+                  </>
                 ) : (
                   <>
-                    <div className="text-center mb-5 sm:mb-6">
-                      <div className="w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 shadow-lg">
-                        <MessageSquare className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                      </div>
-                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 mb-1">
-                        Free 5-Point Conversion Audit
-                      </h3>
-                      <p className="text-xs sm:text-sm text-gray-700">
-                        Share your site + goals. I’ll send a clear breakdown
-                        within <span className="font-semibold">8–12 hours</span>.
-                      </p>
-                    </div>
-
-                    {submitError && (
-                      <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                        <p className="text-xs sm:text-sm text-red-800 flex items-center gap-2">
-                          <Shield className="w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0" />
-                          {submitError}
-                        </p>
-                      </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
-                          <User className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
-                          First name *
-                        </label>
-                        <input
-                          type="text"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
-                          placeholder="John"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
-                          <Mail className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
-                          Best email *
-                        </label>
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
-                          placeholder="john@yourdomain.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
-                          <Globe className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
-                          Your website *
-                        </label>
-                        <input
-                          type="text"
-                          name="website"
-                          value={formData.website}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
-                          placeholder="https://yourwebsite.com"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-xs sm:text-sm font-medium text-gray-800 mb-1 flex items-center gap-1.5">
-                          <MessageCircle className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
-                          What are you trying to achieve? *
-                        </label>
-                        <textarea
-                          name="message"
-                          value={formData.message}
-                          onChange={handleInputChange}
-                          rows={3}
-                          required
-                          className="w-full px-3 py-2 sm:px-4 sm:py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm resize-none"
-                          placeholder="Getting traffic but no booked calls..."
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg hover:shadow-lg active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 text-sm sm:text-base disabled:opacity-70"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                            <span>Sending…</span>
-                          </>
-                        ) : (
-                          <>
-                            <span>Get My Audit</span>
-                            <ArrowRight className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
-                    </form>
+                    <span>Get My Audit</span>
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
-              </div>
-            </div>
-          </div>
+              </button>
+            </form>
+          </>
         )}
+      </div>
+    </div>
+  </div>
+)}
+
 
         {/* Global Styles */}
         <style jsx global>{`
